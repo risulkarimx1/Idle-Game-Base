@@ -2836,7 +2836,6 @@ MonoBehaviour:
   _gameConfig: {fileID: 11400000, guid: 4032399eb3cb76346a2d2aa0835262f7, type: 2}
   _hudView: {fileID: 198845203918410569}
   _cameraView: {fileID: 6487208576915971171}
-  _mineshaftView: {fileID: 0}
   _elevatorView: {fileID: 377378764491910551}
   _warehouseView: {fileID: 256702530}
   _mineshaftStartingPosition: {fileID: 1397787960}
@@ -4823,6 +4822,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prefab_Hud
       objectReference: {fileID: 0}
+    - target: {fileID: 198845203661073323, guid: ac087666426c7dd4caaf7b0b22f4334b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 198845203661073327, guid: ac087666426c7dd4caaf7b0b22f4334b,
         type: 3}
       propertyPath: m_Pivot.x
@@ -5024,6 +5028,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prefab_Elevator
       objectReference: {fileID: 0}
+    - target: {fileID: 927963404901365454, guid: 5b497bc791ff70d4f8a962a1503621ee,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1025574417302148155, guid: 5b497bc791ff70d4f8a962a1503621ee,
         type: 3}
       propertyPath: m_RootOrder
@@ -5165,6 +5174,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: prefab_Warehouse
       objectReference: {fileID: 0}
+    - target: {fileID: 3753906509588879183, guid: 77a1f49a69db04b47b7802567142604e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5179849503581714500, guid: 77a1f49a69db04b47b7802567142604e,
         type: 3}
       propertyPath: m_RootOrder
@@ -5288,6 +5302,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: prefab_CameraRig
+      objectReference: {fileID: 0}
+    - target: {fileID: 6487208576873296775, guid: 75f6aa4ab1a71a442bf16c088f214871,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75f6aa4ab1a71a442bf16c088f214871, type: 3}
