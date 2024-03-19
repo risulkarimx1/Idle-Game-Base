@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
+using Frameworks.InitializablesManager;
 using UniRx;
+using X1Frameworks.InitializablesManager;
 using Zenject;
 
 namespace Frameworks.DataFramework
 {
-    public class DataManager : IInitializable, IDisposable
+    public interface IDataManager : IInitializable, IDisposable, IRequireInit
+    {
+        new bool InitFinished { get; }
+        new void Initialize();
+        UniTask SaveAsync<T>() where T : BaseData;
+        UniTask SaveAllAsync();
+        T Get<T>() where T : BaseData;
+    }
+    public class DataManager : IDataManager
     {
         public static string Key = "1234567890abcdef1234567890abcdef";
         public static string IV = "1234567890abcdef";
-
+        
         [Inject] private IEncryptionService _encryptionService;
 
         [Inject] private IDataHandler _dataHandler;
 
         private readonly ReactiveProperty<bool> _isInitialized = new();
         public bool InitFinished => _isInitialized.Value;
+        
+        private GameInitManager _gameInitManager;
+
         private Dictionary<Type, BaseData> _typeToDataMatch = new();
         private Dictionary<Type, string> _typeToFileNameMatch = new();
         private List<Type> _derivedTypesCache = new();
@@ -42,6 +55,7 @@ namespace Frameworks.DataFramework
             }));
 
             _isInitialized.Value = true;
+            
         }
         private void CacheReflectionResults()
         {

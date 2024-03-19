@@ -1,3 +1,5 @@
+using Frameworks.DataFramework;
+using Frameworks.InitializablesManager;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +10,7 @@ namespace Installer.ProjectContextInstaller
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<GameInitManager>().AsSingle().CopyIntoAllSubContainers();
         }
     }
 }
