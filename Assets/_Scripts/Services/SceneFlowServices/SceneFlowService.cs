@@ -19,8 +19,12 @@ namespace Services.SceneFlowServices
                 Debug.Log($"Unloading current scene: {CurrentScene}", LogContext.SceneFlow);
                 SceneManager.UnloadSceneAsync(CurrentScene);
             }
+            
             Debug.Log($"Loading new scene: {sceneName}", LogContext.SceneFlow);
-            SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            if(CurrentScene == BootScene)
+                SceneManager.LoadSceneAsync(sceneName);
+            else
+                SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             CurrentScene = sceneName;
         }
         
