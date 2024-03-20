@@ -1,5 +1,6 @@
-using Frameworks.DataFramework;
-using Frameworks.InitializablesManager;
+using BootSceneScripts;
+using Frameworks.GameInitFramework;
+using Services.SceneFlowServices;
 using UnityEngine;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace Installer.ProjectContextInstaller
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<SceneFlowService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitManager>().AsSingle().CopyIntoAllSubContainers();
         }
     }

@@ -7,6 +7,7 @@ namespace Frameworks.LogFramework
     {
         UIFrame = 0,
         DataManager = 1,
+        SceneFlow = 2
     }
     public static partial class Debug
     {

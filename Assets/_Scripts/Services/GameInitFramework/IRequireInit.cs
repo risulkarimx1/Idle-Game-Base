@@ -1,6 +1,6 @@
 using Frameworks.DataFramework;
 
-namespace X1Frameworks.InitializablesManager
+namespace Frameworks.GameInitFramework
 {
     public interface IRequireInit
     {

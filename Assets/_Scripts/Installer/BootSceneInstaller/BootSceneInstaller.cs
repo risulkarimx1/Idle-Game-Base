@@ -1,5 +1,4 @@
-using BootSceneCodes;
-using Frameworks.InitializablesManager;
+using BootSceneScripts;
 using UnityEngine;
 using Zenject;
 

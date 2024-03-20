@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
 using Frameworks.DataFramework;
-using X1Frameworks.InitializablesManager;
+using GameCode.Init;
+using UniRx;
 using Zenject;
 
-namespace Frameworks.InitializablesManager
+namespace Frameworks.GameInitFramework
 {
-    public class GameInitManager: IInitializable
+    public class GameInitManager: IInitProgressReporter, IInitializable
     {
         public bool AllInitFinished;
 
@@ -17,6 +18,8 @@ namespace Frameworks.InitializablesManager
         private IRequireInit[] _initSources;
         private Dictionary<Type, IList> _initializablesBySource;
         private IInitializableAfterAll[] _afterAllInitializables;
+
+        public ReactiveProperty<float> OnProgressUpdated { get; set; } = new();
 
         public GameInitManager(DiContainer container, 
             [Inject(Optional = true, Source = InjectSources.Any)] 
@@ -61,12 +64,23 @@ namespace Frameworks.InitializablesManager
         {
             var tasks = new UniTask[_initSources.Length];
             for (var i = 0; i < _initSources.Length; i++)
+            {
                 tasks[i] = WaitForInit(_initSources[i]);
-            await UniTask.WhenAll(tasks);
+                await tasks[i].ContinueWith(() => UpdateProgress((i + 1) / (float)_initSources.Length));
+            }
+                
+            // await UniTask.WhenAll(tasks);
             await UniTask.Yield();
             foreach (var initializable in _afterAllInitializables)
                 initializable.OnAllInitFinished();
             AllInitFinished = true;
+            await UpdateProgress(1f);
+        }
+
+        private UniTask UpdateProgress(float initSourcesLength)
+        {
+            OnProgressUpdated.Value = initSourcesLength;
+            return UniTask.CompletedTask;
         }
 
         private async UniTask WaitForInit(IRequireInit source)
@@ -83,5 +97,6 @@ namespace Frameworks.InitializablesManager
                 if (interfaceType.IsInstanceOfType(initializable))
                     method.Invoke(initializable, new object[] { source });
         }
+        
     }
 }

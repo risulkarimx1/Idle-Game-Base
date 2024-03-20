@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
-using Frameworks.InitializablesManager;
+using Frameworks.GameInitFramework;
 using UniRx;
-using X1Frameworks.InitializablesManager;
 using Zenject;
 
 namespace Frameworks.DataFramework
