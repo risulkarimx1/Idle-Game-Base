@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Cysharp.Threading.Tasks;
 
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     public class AesEncryptionService : IEncryptionService
     {

@@ -1,7 +1,8 @@
 using System;
+using Frameworks.UiFramework;
 using UnityEngine;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     public interface IScreenProperties { }
 

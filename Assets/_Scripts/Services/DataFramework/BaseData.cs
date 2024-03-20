@@ -1,4 +1,4 @@
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     
     [DataIdentifier("player_data")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     public enum LayerType
     {
@@ -31,7 +31,7 @@ namespace Frameworks.UiFramework
         public List<ScreenInfo> Screens;
     }
     
-    [CreateAssetMenu(fileName = "UISettings", menuName = "X1 Frameworks/UI Frameworks/UiSettings")]
+    [CreateAssetMenu(fileName = "UISettings", menuName = "Game Frameworks/UI Frameworks/UiSettings")]
     public class UiSettings : ScriptableObject
     {
         [Header("Canvas Settings")]

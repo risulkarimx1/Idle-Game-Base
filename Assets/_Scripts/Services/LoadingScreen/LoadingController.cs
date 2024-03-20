@@ -1,19 +1,24 @@
 using Cysharp.Threading.Tasks;
-using LoadingSceneScripts;
 using UniRx;
 using Zenject;
 
-namespace Frameworks.LoadingScreen
+namespace Services.LoadingScreen
 {
-    public class LoadingController
+    public class LoadingController: IInitializable
     {
         [Inject] private LoadingView _loadingView;
         private ReactiveProperty<float> _loadingProgress;
+        
+        public void Initialize()
+        {
+            _loadingView.gameObject.SetActive(false);   
+        }
         
         public async UniTask Update(float value)
         {
             if (_loadingProgress == null)
             {
+                _loadingView.gameObject.SetActive(true);
                 var disposable = CreateLoadingProgressStream();
                 
                 await _loadingView.Appear();
@@ -24,6 +29,7 @@ namespace Frameworks.LoadingScreen
                 _loadingProgress = null;
                 
                 disposable.Dispose();
+                _loadingView.gameObject.SetActive(false);
             }
             else
             {

@@ -1,6 +1,6 @@
-using Frameworks.DataFramework;
+using Services.DataFramework;
 
-namespace Frameworks.GameInitFramework
+namespace Services.GameInitFramework
 {
     public interface IRequireInit
     {

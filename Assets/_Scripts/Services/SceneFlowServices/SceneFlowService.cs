@@ -1,4 +1,7 @@
-using Frameworks.LogFramework;
+using Services.LogFramework;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Debug = Services.LogFramework.Debug;
 
 namespace Services.SceneFlowServices
 {
@@ -14,11 +17,17 @@ namespace Services.SceneFlowServices
             if (unloadCurrentScene && CurrentScene != BootScene)
             {
                 Debug.Log($"Unloading current scene: {CurrentScene}", LogContext.SceneFlow);
-                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(CurrentScene);
+                SceneManager.UnloadSceneAsync(CurrentScene);
             }
             Debug.Log($"Loading new scene: {sceneName}", LogContext.SceneFlow);
-            UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
             CurrentScene = sceneName;
+        }
+        
+        public static void MoveObjectToScene(GameObject gameObject, string sceneName)
+        {
+            Debug.Log($"Moving object to scene: {sceneName}", LogContext.SceneFlow);
+            SceneManager.MoveGameObjectToScene(gameObject, UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName));
         }
     }
 }

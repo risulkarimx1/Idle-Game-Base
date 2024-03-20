@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GameCode.UI
 {
@@ -7,6 +8,7 @@ namespace GameCode.UI
     {
         [SerializeField] private TMP_Text _cashAmount;
         [SerializeField] private GameObject _tooltip;
+        [SerializeField] private Button _resetButton;
 
         public double CashAmount
         {
@@ -17,5 +19,7 @@ namespace GameCode.UI
         {
             set => _tooltip.gameObject.SetActive(value);
         }
+
+        public Button ResetButton => _resetButton;
     }
 }

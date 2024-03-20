@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     public class PopupBackgroundBlocker : MonoBehaviour, IPointerDownHandler
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Frameworks.LogFramework
+namespace Services.LogFramework
 {
     public enum LogContext : byte
     {

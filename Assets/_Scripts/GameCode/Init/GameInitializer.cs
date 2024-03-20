@@ -1,4 +1,5 @@
-﻿using GameCode.CameraRig;
+﻿using System;
+using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Finance;
 using GameCode.Mineshaft;
@@ -7,22 +8,23 @@ using GameCode.UI;
 using GameCode.Warehouse;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace GameCode.Init
 {
-    public class GameInitializer : MonoBehaviour
+    public class GameInitializer: IInitializable, IDisposable
     {
-        [SerializeField] private GameConfig _gameConfig;
-        [SerializeField] private HudView _hudView;
-        [SerializeField] private CameraView _cameraView;
+        [Inject] private GameConfig _gameConfig;
+        [Inject] private HudView _hudView;
+        [Inject] private CameraView _cameraView;
 
-        [SerializeField] private ElevatorView _elevatorView;
-        [SerializeField] private WarehouseView _warehouseView;
-        [SerializeField] private Transform _mineshaftStartingPosition;
-
-        private void Start()
+        [Inject] private ElevatorView _elevatorView;
+        [Inject] private WarehouseView _warehouseView;
+        [Inject (Id = "FirstMinePosition")] private Transform _mineshaftStartingPosition;
+        private CompositeDisposable _disposable;
+        public void Initialize()
         {
-            var disposable = new CompositeDisposable().AddTo(this);
+            _disposable = new CompositeDisposable();
 
             var tutorialModel = new TutorialModel();
             var financeModel = new FinanceModel();
@@ -30,20 +32,25 @@ namespace GameCode.Init
             new CameraController(_cameraView, tutorialModel);
 
             //Hud
-            new HudController(_hudView, financeModel, tutorialModel, disposable);
+            new HudController(_hudView, financeModel, tutorialModel, _disposable);
 
             //Mineshaft
             var mineshaftCollectionModel = new MineshaftCollectionModel();
-            var mineshaftFactory = new MineshaftFactory(mineshaftCollectionModel, financeModel, _gameConfig, disposable);
+            var mineshaftFactory = new MineshaftFactory(mineshaftCollectionModel, financeModel, _gameConfig, _disposable);
             mineshaftFactory.CreateMineshaft(1,1, _mineshaftStartingPosition.position);
 
             //Elevator
-            var elevatorModel = new ElevatorModel(1, _gameConfig, financeModel, disposable);
-            new ElevatorController(_elevatorView, elevatorModel, mineshaftCollectionModel, _gameConfig, disposable);
+            var elevatorModel = new ElevatorModel(1, _gameConfig, financeModel, _disposable);
+            new ElevatorController(_elevatorView, elevatorModel, mineshaftCollectionModel, _gameConfig, _disposable);
             
             //Warehouse
-            var warehouseModel = new WarehouseModel(1, _gameConfig, financeModel, disposable);
-            new WarehouseController(_warehouseView, warehouseModel, elevatorModel, _gameConfig, disposable);
+            var warehouseModel = new WarehouseModel(1, _gameConfig, financeModel, _disposable);
+            new WarehouseController(_warehouseView, warehouseModel, elevatorModel, _gameConfig, _disposable);
+        }
+
+        public void Dispose()
+        {
+            _disposable?.Dispose();
         }
     }
 }

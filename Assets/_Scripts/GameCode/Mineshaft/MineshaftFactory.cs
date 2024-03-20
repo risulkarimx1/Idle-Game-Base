@@ -1,5 +1,6 @@
 ﻿using GameCode.Finance;
 using GameCode.Init;
+using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
 
@@ -23,6 +24,7 @@ namespace GameCode.Mineshaft
         public void CreateMineshaft(int mineshaftNumber, int mineshaftLevel, Vector2 position)
         {
             var view = Object.Instantiate(_config.MineshaftConfig.MineshaftPrefab, position, Quaternion.identity);
+            SceneFlowService.MoveObjectToScene(view.gameObject, SceneFlowService.GameScene);
             var mineshaftModel = new MineshaftModel(mineshaftNumber, mineshaftLevel, _config, _financeModel, _disposable);
             new MineshaftController(view, mineshaftModel, this, _config, _disposable);
             _collectionModel.RegisterMineshaft(mineshaftNumber, mineshaftModel, view);

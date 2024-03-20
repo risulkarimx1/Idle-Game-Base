@@ -1,4 +1,4 @@
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     [System.AttributeUsage(System.AttributeTargets.Class, Inherited = false)]
     public class DataIdentifierAttribute : System.Attribute

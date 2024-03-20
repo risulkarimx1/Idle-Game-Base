@@ -1,10 +1,9 @@
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LoadingSceneScripts
+namespace Services.LoadingScreen
 {
     public class LoadingView : MonoBehaviour
     {

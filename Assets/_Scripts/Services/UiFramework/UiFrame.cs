@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Frameworks.LogFramework;
+using Frameworks.UiFramework;
 using JetBrains.Annotations;
+using Services.LogFramework;
 using UnityEngine;
 using UnityEngine.UI;
-using Debug = Frameworks.LogFramework.Debug;
+using Debug = Services.LogFramework.Debug;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     /// <summary>
     /// This is the centralized access point for all things UI.

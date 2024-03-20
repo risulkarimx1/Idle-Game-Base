@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
-using Frameworks.DataFramework;
 using GameCode.Init;
+using Services.DataFramework;
 using UniRx;
 using Zenject;
 
-namespace Frameworks.GameInitFramework
+namespace Services.GameInitFramework
 {
     public class GameInitManager: IInitProgressReporter, IInitializable
     {

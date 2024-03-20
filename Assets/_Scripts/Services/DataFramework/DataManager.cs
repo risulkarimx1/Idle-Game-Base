@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
-using Frameworks.GameInitFramework;
+using Services.GameInitFramework;
 using UniRx;
 using Zenject;
 
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     public interface IDataManager : IInitializable, IDisposable, IRequireInit
     {

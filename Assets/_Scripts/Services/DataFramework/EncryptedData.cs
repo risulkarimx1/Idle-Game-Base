@@ -1,4 +1,4 @@
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     public class EncryptedData
     {

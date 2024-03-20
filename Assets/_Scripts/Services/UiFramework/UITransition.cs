@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     public abstract class UITransition : MonoBehaviour
     {

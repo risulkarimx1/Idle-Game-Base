@@ -20,6 +20,10 @@ namespace GameCode.UI
             tutorialModel.ShouldShowTooltip
                 .Subscribe(UpdateTooltipVisibility)
                 .AddTo(disposable);
+            _view.ResetButton.OnClickAsObservable().Subscribe(_ =>
+            {
+                
+            }).AddTo(disposable);
         }
 
         private void UpdateTooltipVisibility(bool shouldShowTooltip)

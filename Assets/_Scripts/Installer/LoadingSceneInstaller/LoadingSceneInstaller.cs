@@ -1,5 +1,4 @@
-using Frameworks.LoadingScreen;
-using LoadingSceneScripts;
+using Services.LoadingScreen;
 using UnityEngine;
 using Zenject;
 

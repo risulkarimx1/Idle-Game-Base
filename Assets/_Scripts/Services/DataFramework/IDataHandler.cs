@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
 
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     public interface IDataHandler
     {

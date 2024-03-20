@@ -1,8 +1,9 @@
 using System;
 using DG.Tweening;
+using Frameworks.UiFramework;
 using UnityEngine;
 
-namespace Frameworks.UiFramework
+namespace Services.UiFramework
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class SimpleFadeTransition: UITransition

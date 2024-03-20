@@ -1,11 +1,11 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
-using Frameworks.LogFramework;
 using Newtonsoft.Json;
+using Services.LogFramework;
 using UnityEngine;
-using Debug = Frameworks.LogFramework.Debug;
+using Debug = Services.LogFramework.Debug;
 
-namespace Frameworks.DataFramework
+namespace Services.DataFramework
 {
     public abstract class BaseDataHandler
     {

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2896db1cc2d4227b82725c0b1cbad7, type: 3}
+  m_Name: GameSceneInstaller
+  m_EditorClassIdentifier: 
+  firstMineshaftPosition: {fileID: 6164421825447661484, guid: e1021318d97624c138e3e12755f65bf1,
+    type: 3}
+  gameConfig: {fileID: 11400000, guid: 4032399eb3cb76346a2d2aa0835262f7, type: 2}
+  hudViewPrefab: {fileID: 4102659311273505977, guid: ac087666426c7dd4caaf7b0b22f4334b,
+    type: 3}
+  cameraRigPrefab: {fileID: 6205857344852459590, guid: 75f6aa4ab1a71a442bf16c088f214871,
+    type: 3}
+  warehouseViewPrefab: {fileID: 256702530, guid: 77a1f49a69db04b47b7802567142604e,
+    type: 3}
+  elevatorViewPrefab: {fileID: 377378764491910551, guid: 5b497bc791ff70d4f8a962a1503621ee,
+    type: 3}
