@@ -2,6 +2,7 @@
 using GameCode.Init;
 using GameCode.Worker;
 using UniRx;
+using Zenject;
 
 namespace GameCode.Warehouse
 {
@@ -9,6 +10,7 @@ namespace GameCode.Warehouse
     {
         private readonly WarehouseModel _model;
 
+        [Inject]
         public WarehouseController(WarehouseView view, WarehouseModel model, ElevatorModel elevatorModel,
             GameConfig config, CompositeDisposable disposable)
         {

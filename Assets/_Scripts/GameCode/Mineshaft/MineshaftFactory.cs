@@ -3,6 +3,7 @@ using GameCode.Init;
 using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace GameCode.Mineshaft
 {
@@ -13,6 +14,7 @@ namespace GameCode.Mineshaft
         private readonly GameConfig _config;
         private readonly CompositeDisposable _disposable;
 
+        [Inject]
         public MineshaftFactory(MineshaftCollectionModel collectionModel, FinanceModel financeModel, GameConfig config, CompositeDisposable disposable)
         {
             _collectionModel = collectionModel;

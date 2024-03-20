@@ -3,6 +3,7 @@ using GameCode.Tutorial;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
+using Zenject;
 
 namespace GameCode.CameraRig
 {
@@ -11,6 +12,7 @@ namespace GameCode.CameraRig
         private readonly CameraView _view;
         private readonly ITutorialModel _tutorialModel;
 
+        [Inject]
         public CameraController(CameraView view, ITutorialModel tutorialModel)
         {
             _view = view;

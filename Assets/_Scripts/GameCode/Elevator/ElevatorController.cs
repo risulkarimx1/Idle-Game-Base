@@ -2,6 +2,7 @@
 using GameCode.Mineshaft;
 using GameCode.Worker;
 using UniRx;
+using Zenject;
 
 namespace GameCode.Elevator
 {
@@ -9,6 +10,7 @@ namespace GameCode.Elevator
     {
         private readonly ElevatorModel _model;
 
+        [Inject]
         public ElevatorController(ElevatorView view, ElevatorModel model, MineshaftCollectionModel mineshaftCollectionModel,
              GameConfig gameConfig, CompositeDisposable disposable)
         {

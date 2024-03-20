@@ -1,6 +1,7 @@
 ﻿using GameCode.Finance;
 using GameCode.Tutorial;
 using UniRx;
+using Zenject;
 
 namespace GameCode.UI
 {
@@ -8,6 +9,7 @@ namespace GameCode.UI
     {
         private readonly HudView _view;
 
+        [Inject]
         public HudController(HudView view, FinanceModel financeModel, ITutorialModel tutorialModel,
             CompositeDisposable disposable)
         {

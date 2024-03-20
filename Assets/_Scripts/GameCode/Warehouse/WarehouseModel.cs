@@ -3,6 +3,7 @@ using GameCode.GameArea;
 using GameCode.Init;
 using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace GameCode.Warehouse
 {
@@ -16,12 +17,13 @@ namespace GameCode.Warehouse
         private readonly IReactiveProperty<double> _upgradePrice;
         private readonly IReactiveProperty<int> _level;
 
-        public WarehouseModel(int level, GameConfig config, FinanceModel financeModel, CompositeDisposable disposable)
+        [Inject]
+        public WarehouseModel( GameConfig config, FinanceModel financeModel, CompositeDisposable disposable)
         {
             _config = config;
             _financeModel = financeModel;
             
-            _level = new ReactiveProperty<int>(level);
+            _level = new ReactiveProperty<int>(1); // will be taken from data
             SkillMultiplier = Mathf.Pow(_config.ActorSkillIncrementPerShaft, 1) * Mathf.Pow(config.ActorUpgradeSkillIncrement, _level.Value - 1);
             _upgradePrice = new ReactiveProperty<double>(BasePrice * Mathf.Pow(_config.ActorUpgradePriceIncrement, _level.Value - 1));
             CanUpgrade = _financeModel.Money
