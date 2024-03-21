@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using Cysharp.Threading.Tasks;
-using Services.LoadingScreen;
 using Services.LogFramework;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
-using Zenject;
 using Debug = Services.LogFramework.Debug;
 
 namespace Services.SceneFlowServices
@@ -19,6 +17,9 @@ namespace Services.SceneFlowServices
         public static string BootScene { get; set; } = "BootScene";
 
         public string CurrentScene { get; set; }
+        
+        private Dictionary<string, List<AsyncOperationHandle<GameObject>>> _sceneAssetHandles = new Dictionary<string, List<AsyncOperationHandle<GameObject>>>();
+
 
         public async UniTask SwitchScene(string sceneName, bool unloadCurrentScene = true, string [] assetKeys = null)
         {
@@ -26,6 +27,7 @@ namespace Services.SceneFlowServices
             
             if (unloadCurrentScene && CurrentScene != BootScene)
             {
+                await UnloadSceneAssets(CurrentScene);
                 await SceneManager.UnloadSceneAsync(CurrentScene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
             }
 
@@ -35,17 +37,19 @@ namespace Services.SceneFlowServices
             if (assetKeys == null) return;
             
             await LoadAddressables(assetKeys);
-            foreach (var key in assetKeys)
+        }
+
+        private async UniTask UnloadSceneAssets(string currentScene)
+        {
+            if (_sceneAssetHandles.TryGetValue(currentScene, out var handles))
             {
-                var handle = Addressables.InstantiateAsync(key);
-                while (!handle.IsDone)
+                foreach (var handle in handles)
                 {
-                    // Update loading screen with the progress
-                    // await _loadingController.Update(handle.PercentComplete);
+                    Debug.Log($"Releasing asset: {handle}", LogContext.SceneFlow);
+                    Addressables.Release(handle);
                     await UniTask.Yield();
                 }
-                
-                MoveObjectToScene(handle.Result, CurrentScene);
+                _sceneAssetHandles.Remove(currentScene);
             }
         }
 
@@ -58,13 +62,19 @@ namespace Services.SceneFlowServices
 
         private async UniTask LoadAddressables(IEnumerable<string> assetKeys)
         {
-            var loadTasks =
-                Enumerable.Select(
-                    Enumerable.Select(assetKeys.Select(Addressables.LoadAssetAsync<GameObject>),
-                        handle => handle.ToUniTask()),
-                    t => (UniTask)t).ToList();
-
-            await UniTask.WhenAll(loadTasks);
+            if (!_sceneAssetHandles.ContainsKey(CurrentScene))
+            {
+                _sceneAssetHandles[CurrentScene] = new List<AsyncOperationHandle<GameObject>>();
+            }
+            
+            foreach (var key in assetKeys)
+            {
+                var handle = Addressables.LoadAssetAsync<GameObject>(key);
+                await handle.ToUniTask();
+                var instance = await Addressables.InstantiateAsync(key).Task;
+                MoveObjectToScene(instance, CurrentScene);
+                _sceneAssetHandles[CurrentScene].Add(handle);
+            }
         }
     }
 }
