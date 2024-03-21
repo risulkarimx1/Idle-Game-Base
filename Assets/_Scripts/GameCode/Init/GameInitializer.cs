@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Mineshaft;
@@ -20,10 +21,12 @@ namespace GameCode.Init
         [Inject] private WarehouseView _warehouseView;
         [Inject (Id = "FirstMinePosition")] private Transform _mineshaftStartingPosition;
         [Inject] private CompositeDisposable _disposable;
-        [Inject] private MineshaftFactory _mineshaftFactory;
+        [Inject] private IMineshaftFactory _mineshaftFactory;
         public void Initialize()
         {
-            _mineshaftFactory.CreateMineshaft(1,1, _mineshaftStartingPosition.position);
+            // _mineshaftFactory.CreateMineshaft(1,1, _mineshaftStartingPosition.position);
+            _mineshaftFactory.CreateMineshaftBatch(new Dictionary<int, int>() { { 1, 1 }, { 2, 1 }, { 3, 1 } },
+                _mineshaftStartingPosition.position);
         }
 
         public void Dispose()
