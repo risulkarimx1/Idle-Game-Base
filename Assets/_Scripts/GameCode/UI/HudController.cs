@@ -1,5 +1,7 @@
-﻿using GameCode.Finance;
+﻿using Cysharp.Threading.Tasks;
+using GameCode.Finance;
 using GameCode.Tutorial;
+using Services.SceneFlowServices;
 using UniRx;
 using Zenject;
 
@@ -9,6 +11,8 @@ namespace GameCode.UI
     {
         private readonly HudView _view;
 
+        [Inject] private SceneFlowService _sceneFlowService;
+        
         [Inject]
         public HudController(HudView view, FinanceModel financeModel, ITutorialModel tutorialModel,
             CompositeDisposable disposable)
@@ -24,7 +28,7 @@ namespace GameCode.UI
                 .AddTo(disposable);
             _view.ResetButton.OnClickAsObservable().Subscribe(_ =>
             {
-                
+                 _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true).Forget();
             }).AddTo(disposable);
         }
 

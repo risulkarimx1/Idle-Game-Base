@@ -7,8 +7,13 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/_Scenes/BootScene.unity
+    guid: 0d625ba51b8664aceac266ab65620ee3
+  - enabled: 1
+    path: Assets/_Scenes/LevelLoaderScene.unity
     guid: ff5ffa7ce62004736ad7dbad86339966
   - enabled: 1
     path: Assets/_Scenes/GameScene.unity
     guid: e0d2d4570004bcd47b895f96da1af1f2
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: a2afb1f0ee85949778c0873ec3b41162,
+      type: 2}

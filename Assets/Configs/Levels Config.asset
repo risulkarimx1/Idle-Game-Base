@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a826dc82f91f413d9a196f4e30ed3ba, type: 3}
-  m_Name: BootSceneInstaller
+  m_Script: {fileID: 11500000, guid: b27f1daeea0c4e42b3990c2910a3ef8f, type: 3}
+  m_Name: Levels Config
   m_EditorClassIdentifier: 
+  defaultAssetsKey:
+  - environment.scene.1

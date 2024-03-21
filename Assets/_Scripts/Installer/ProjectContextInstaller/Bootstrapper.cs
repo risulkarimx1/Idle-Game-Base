@@ -6,9 +6,9 @@ using Services.SceneFlowServices;
 using UniRx;
 using Zenject;
 
-namespace BootSceneScripts
+namespace Installer.ProjectContextInstaller
 {
-    public class Bootloader: IInitializable, IDisposable, IInitializableAfterAll
+    public class Bootstrapper: IInitializable, IDisposable, IInitializableAfterAll
     {
         [Inject] private IInitProgressReporter _progressReporter;
         [Inject] private LoadingController _loadingController;
@@ -16,24 +16,25 @@ namespace BootSceneScripts
 
         private CompositeDisposable _disposable = new();
 
-        public void Initialize()
+        public async void Initialize()
         {
-            _sceneFlowService.CurrentScene = SceneFlowService.BootScene;
+            _sceneFlowService.CurrentScene = SceneFlowService.LevelLoaderScene;
+            await _loadingController.Appear();
             _progressReporter.OnProgressUpdated.Subscribe(async value =>
             {
-                await _loadingController.Update(value);
+                
             }).AddTo(_disposable);
         }
         
         // add a method to hot reload the game
-        public void SoftReloadGame()
+        public async void SoftReloadGame()
         {
-            _sceneFlowService.SwitchScene(SceneFlowService.BootScene, true);
+            await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
         }
 
-        public void OnAllInitFinished()
+        public async void OnAllInitFinished()
         {
-            _sceneFlowService.SwitchScene(SceneFlowService.GameScene, true);
+            await _loadingController.Hide();
         }
 
         public void Dispose()

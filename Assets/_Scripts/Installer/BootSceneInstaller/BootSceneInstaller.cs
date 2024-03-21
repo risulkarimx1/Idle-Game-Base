@@ -1,4 +1,5 @@
 using BootSceneScripts;
+using Installer.ProjectContextInstaller;
 using UnityEngine;
 using Zenject;
 
@@ -9,7 +10,7 @@ namespace Installer.BootSceneInstaller
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<Bootloader>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<BootSceneRelay>().AsSingle().NonLazy();
         }
     }
 }
