@@ -1,29 +1,19 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Services.LogFramework;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 using Debug = Services.LogFramework.Debug;
 
 namespace Services.SceneFlowServices
 {
     [CreateAssetMenu(fileName = "Levels Config", menuName = "Levels Config")]
-    public class LevelsConfig : ScriptableObject
+    public class LevelsConfig : SerializedScriptableObject
     {
         [SerializeField] private string[] defaultAssetsKey;
 
-        [ShowInInspector, OnValueChanged(nameof(OnLevelsToAssetsMapChanged))]
-        private Dictionary<string, string[]> _levelsToAssetsMap = new();
-
-        [UsedImplicitly]
-        private void OnLevelsToAssetsMapChanged()
-        {
-            #if UNITY_EDITOR
-            EditorUtility.SetDirty(this);
-            AssetDatabase.SaveAssets();
-            #endif
-        }
+        [SerializeField]
+        private Dictionary<string, string[]> _levelsToAssetsMap;
+        
         public string[] GetLevelInformation(string levelId)
         {
             if (_levelsToAssetsMap.TryGetValue(levelId, out var levelInformation))
