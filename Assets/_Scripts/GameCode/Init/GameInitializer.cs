@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Mineshaft;
+using GameCode.Persistance;
 using GameCode.UI;
 using GameCode.Warehouse;
+using Services.DataFramework;
+using Services.GameInitFramework;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
 namespace GameCode.Init
 {
-    public class GameInitializer: IInitializable, IDisposable
+    public class GameInitializer: IInitializableAfterAll, IDisposable
     {
         [Inject] private GameConfig _gameConfig;
         [Inject] private HudView _hudView;
@@ -22,16 +25,21 @@ namespace GameCode.Init
         [Inject (Id = "FirstMinePosition")] private Transform _mineshaftStartingPosition;
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
-        public void Initialize()
+        [Inject] private DataManager _dataManager;
+        
+        public void OnAllInitFinished()
         {
-            // _mineshaftFactory.CreateMineshaft(1,1, _mineshaftStartingPosition.position);
-            _mineshaftFactory.CreateMineshaftBatch(new Dictionary<int, int>() { { 1, 1 }, { 2, 1 }, { 3, 1 } },
-                _mineshaftStartingPosition.position);
+            var mineShaftLevels = _dataManager.Get<GameLevelData>().GetMineShaftLevels();
+            _mineshaftFactory.CreateMineshaftBatch(mineShaftLevels, _mineshaftStartingPosition.position);
+            
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
+            await _dataManager.SaveAllAsync();
             _disposable?.Dispose();
         }
+
+        
     }
 }

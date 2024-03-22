@@ -8,6 +8,9 @@ namespace GameCode.Mineshaft
     {
         private readonly MineshaftView _view;
         private readonly MineshaftModel _model;
+        public MineshaftView View => _view;
+        public MineshaftModel Model => _model;
+        
         private readonly IMineshaftFactory _mineshaftFactory;
 
         public MineshaftController(MineshaftView view, MineshaftModel model, IMineshaftFactory mineshaftFactory,
@@ -47,14 +50,14 @@ namespace GameCode.Mineshaft
 
         private void Upgrade()
         {
-            _model.Upgrade();
+            Model.Upgrade();
         }
 
         private void BuyNextShaft()
         {
-            _model.BuyNextShaft();
-            _view.NextShaftView.Visible = false;
-            _mineshaftFactory.CreateMineshaft(_model.MineshaftNumber + 1, 1, _view.NextShaftView.NextShaftPosition);
+            Model.BuyNextShaft();
+            View.NextShaftView.Visible = false;
+            _mineshaftFactory.CreateMineshaft(Model.MineshaftNumber + 1, 1, View.NextShaftView.NextShaftPosition);
         }
     }
 }

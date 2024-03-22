@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameCode.Finance;
 using GameCode.Init;
+using GameCode.Persistance;
+using Services.DataFramework;
 using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Object = UnityEngine.Object;
 
 namespace GameCode.Mineshaft
 {
@@ -14,6 +18,8 @@ namespace GameCode.Mineshaft
         private readonly FinanceModel _financeModel;
         private readonly GameConfig _config;
         private readonly CompositeDisposable _disposable;
+        private HashSet<MineshaftController> _controllers = new();
+        [Inject] private DataManager _dataManager;
 
         [Inject]
         public MineshaftFactory(MineshaftCollectionModel collectionModel, FinanceModel financeModel, GameConfig config,
@@ -27,32 +33,54 @@ namespace GameCode.Mineshaft
 
         public void CreateMineshaft(int mineshaftNumber, int mineshaftLevel, Vector2 position)
         {
-            // Utilize the helper method for creating a single mineshaft
-            CreateAndRegisterMineshaft(mineshaftNumber, mineshaftLevel, position);
+             var controller = CreateAndRegisterMineshaft(mineshaftNumber, mineshaftLevel, position);
+             if (_controllers.Add(controller))
+             {
+                 SetDataStream();
+             }
+            
         }
 
         public void CreateMineshaftBatch(Dictionary<int, int> mineshaftLevels, Vector2 position)
         {
+            var controllers = new List<MineshaftController>();
             foreach (var entry in mineshaftLevels)
             {
-                // Utilize the helper method within the loop for creating each mineshaft
-                var view = CreateAndRegisterMineshaft(entry.Key, entry.Value, position);
-                position = view.NextShaftView.NextShaftPosition; // Adjust position for the next mineshaft
+                var controller = CreateAndRegisterMineshaft(entry.Key, entry.Value, position);
+                position = controller.View.NextShaftView.NextShaftPosition;
+                controllers.Add(controller);
+                
+            }
+            
+            foreach (var controller in controllers)
+            {
+                if (_controllers.Add(controller))
+                {
+                    SetDataStream();
+                }    
+            }
+            
+        }
+
+        private void SetDataStream()
+        {
+            foreach (var controller in _controllers)
+            {
+                  controller.Model.Level.Subscribe(level => _dataManager.Get<GameLevelData>().SetMineshaftLevel(controller.Model.MineshaftNumber, level))
+                    .AddTo(_disposable);
             }
         }
 
-        // Helper method to eliminate code duplication
-        private MineshaftView CreateAndRegisterMineshaft(int mineshaftNumber, int mineshaftLevel, Vector2 position)
+        private MineshaftController CreateAndRegisterMineshaft(int mineshaftNumber, int mineshaftLevel, Vector2 position)
         {
             var view = Object.Instantiate(_config.MineshaftConfig.MineshaftPrefab, position, Quaternion.identity);
             SceneFlowService.MoveObjectToScene(view.gameObject, SceneFlowService.GameScene);
             
             var mineshaftModel = new MineshaftModel(mineshaftNumber, mineshaftLevel, _config, _financeModel, _disposable);
-            new MineshaftController(view, mineshaftModel, this, _config, _disposable);
+            var mineShaftController = new MineshaftController(view, mineshaftModel, this, _config, _disposable);
             
             _collectionModel.RegisterMineshaft(mineshaftNumber, mineshaftModel, view);
-            
-            return view; // Return the view to possibly use it, e.g., for positioning in batch creation
+            return mineShaftController;
         }
     }
 }

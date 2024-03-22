@@ -1,21 +1,40 @@
 namespace Services.DataFramework
 {
-    
-    [DataIdentifier("player_data")]
-    public class PlayerData: BaseData
-    {
-        private int _level = 0;
+    /*
+     * Example
+     * [DataIdentifier("player_data")]
+       public class PlayerData: BaseData
+       {
+           private int _level = 0;
 
-        public int Level
-        {
-            get => _level;
-            set
-            {
-                _level = value;
-                SetDirty();
-            }
-        }
-    }
+           public int Level
+           {
+               get => _level;
+               set
+               {
+                   _level = value;
+                   SetDirty();
+               }
+           }
+       }
+       [DataIdentifier("player_data")]
+       public class PlayerData: BaseData
+       {
+           private int _level = 0;
+
+           public int Level
+           {
+               get => _level;
+               set
+               {
+                   _level = value;
+                   SetDirty();
+               }
+           }
+       }
+     */
+    
+    
     
     [DataIdentifier("currency_data")]
     public class CurrencyData: BaseData
