@@ -9,7 +9,7 @@ namespace Services.GameInitFramework
     
     public interface IInitializableAfter<T> where T : IRequireInit
     {
-        public void OnInitFinishedFor(T instance);
+        public void OnInitFinishedFor(T dataManager);
     }
     
     public interface IInitializableAfterAll

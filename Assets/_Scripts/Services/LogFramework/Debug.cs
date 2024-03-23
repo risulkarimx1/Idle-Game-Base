@@ -8,7 +8,8 @@ namespace Services.LogFramework
         UIFrame = 0,
         DataManager = 1,
         SceneFlow = 2,
-        LevelConfig =3
+        LevelConfig =3,
+        FinanceModel = 4
     }
     public static partial class Debug
     {

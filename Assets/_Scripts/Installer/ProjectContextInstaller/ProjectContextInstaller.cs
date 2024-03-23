@@ -1,3 +1,4 @@
+using GameCode.TimeProvider;
 using Services.GameInitFramework;
 using Services.SceneFlowServices;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Installer.ProjectContextInstaller
     {
         public override void InstallBindings()
         {
+            Container.BindInterfacesAndSelfTo<SystemTimeProvider>().AsSingle();
             Container.BindInterfacesAndSelfTo<Bootstrapper>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneFlowService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitManager>().AsSingle().CopyIntoAllSubContainers();

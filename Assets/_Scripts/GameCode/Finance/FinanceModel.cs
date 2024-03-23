@@ -3,14 +3,26 @@ using UnityEngine;
 
 namespace GameCode.Finance
 {
-    public class FinanceModel
+    public interface IFinanceModel
+    {
+        IReadOnlyReactiveProperty<double> Money { get; }
+        IReactiveProperty<double> EarnedMoney { get; }
+        void AddResource(double amount);
+        double DrawResource(double amount);
+    }
+    public class FinanceModel: IFinanceModel
     {
         private readonly IReactiveProperty<double> _money;
         public IReadOnlyReactiveProperty<double> Money => _money;
 
+        public IReactiveProperty<double> EarnedMoney => _earnedMoney;
+
+        private readonly IReactiveProperty<double> _earnedMoney;
+
         public FinanceModel()
         {
             _money = new ReactiveProperty<double>(500);
+            _earnedMoney = new ReactiveProperty<double>(_money.Value);
         }
 
         public void AddResource(double amount)
@@ -22,6 +34,8 @@ namespace GameCode.Finance
             }
 
             _money.Value += amount;
+            // TODO: We only add revinew from idle income. We can segregate that from different sources of income.
+            _earnedMoney.Value += amount;
         }
 
         public double DrawResource(double amount)

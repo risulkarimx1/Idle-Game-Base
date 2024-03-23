@@ -3,8 +3,10 @@ using GameCode.Elevator;
 using GameCode.Finance;
 using GameCode.Init;
 using GameCode.Mineshaft;
+using GameCode.Signals;
 using GameCode.Tutorial;
 using GameCode.UI;
+using GameCode.Utils;
 using GameCode.Warehouse;
 using Sirenix.OdinInspector;
 using UniRx;
@@ -25,17 +27,23 @@ namespace Installer.GameSceneInstallers
         [BoxGroup("Game Scene Prefabs")] [SerializeField] private ElevatorView elevatorViewPrefab;
         public override void InstallBindings()
         {
+            InstallSignals();
+
             Container.BindInterfacesAndSelfTo<CompositeDisposable>().AsSingle();
             Container.Bind<HudView>().FromComponentInNewPrefab(hudViewPrefab).AsSingle();
             Container.Bind<CameraView>().FromComponentInNewPrefab(cameraRigPrefab).AsSingle();
             Container.Bind<WarehouseView>().FromComponentInNewPrefab(warehouseViewPrefab).AsSingle();
             Container.Bind<ElevatorView>().FromComponentInNewPrefab(elevatorViewPrefab).AsSingle();
             Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle();
-            Container.Bind<Transform>().WithId("FirstMinePosition").FromInstance(firstMineshaftPosition).AsSingle();
+            Container.Bind<Transform>().WithId(GameConstants.FirtMinePositionObjectTag).FromInstance(firstMineshaftPosition).AsSingle();
 
             Container.BindInterfacesAndSelfTo<TutorialModel>().AsSingle();
-            Container.BindInterfacesAndSelfTo<FinanceModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<CameraController>().AsSingle().NonLazy();
+            
+            // finance 
+            Container.BindInterfacesAndSelfTo<DepositRateCalculator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<FinanceModel>().AsSingle();
+            
             // Hud
             Container.BindInterfacesAndSelfTo<HudController>().AsSingle().NonLazy();
             
@@ -51,8 +59,15 @@ namespace Installer.GameSceneInstallers
             Container.BindInterfacesAndSelfTo<WarehouseModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<WarehouseController>().AsSingle().NonLazy();
             
-            
+            // Initiate Game Data Services
+            Container.BindInterfacesAndSelfTo<MineshaftDataService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameInitializer>().AsSingle().NonLazy();
+        }
+
+        private void InstallSignals()
+        {
+            SignalBusInstaller.Install(Container);
+            Container.DeclareSignal<GameSignals.MineshaftCreatedSignal>();
         }
     }
 }

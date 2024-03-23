@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Mineshaft;
 using GameCode.Persistance;
 using GameCode.UI;
+using GameCode.Utils;
 using GameCode.Warehouse;
 using Services.DataFramework;
 using Services.GameInitFramework;
@@ -14,24 +14,24 @@ using Zenject;
 
 namespace GameCode.Init
 {
-    public class GameInitializer: IInitializableAfterAll, IDisposable
+    public class GameInitializer : IInitializableAfterAll, IDisposable
     {
-        [Inject] private GameConfig _gameConfig;
-        [Inject] private HudView _hudView;
-        [Inject] private CameraView _cameraView;
-
-        [Inject] private ElevatorView _elevatorView;
-        [Inject] private WarehouseView _warehouseView;
-        [Inject (Id = "FirstMinePosition")] private Transform _mineshaftStartingPosition;
+        [Inject(Id = GameConstants.FirtMinePositionObjectTag)] private Transform _mineshaftStartingPosition;
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private DataManager _dataManager;
-        
+
         public void OnAllInitFinished()
         {
-            var mineShaftLevels = _dataManager.Get<GameLevelData>().GetMineShaftLevels();
-            _mineshaftFactory.CreateMineshaftBatch(mineShaftLevels, _mineshaftStartingPosition.position);
+            var mineShaftLevels = _dataManager.Get<GameLevelData>().GetMineShaftLevels().Clone();
             
+            var mineShaftPosition = _mineshaftStartingPosition.position;
+            
+            foreach (var mineShaftLevel in mineShaftLevels)
+            {
+               var controller = _mineshaftFactory.CreateMineshaft(mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
+               mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
+            }
         }
 
         public async void Dispose()
@@ -39,7 +39,5 @@ namespace GameCode.Init
             await _dataManager.SaveAllAsync();
             _disposable?.Dispose();
         }
-
-        
     }
 }
