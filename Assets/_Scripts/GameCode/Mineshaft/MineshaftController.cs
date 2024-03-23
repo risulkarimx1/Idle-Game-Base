@@ -57,7 +57,8 @@ namespace GameCode.Mineshaft
         {
             Model.BuyNextShaft();
             View.NextShaftView.Visible = false;
-            _mineshaftFactory.CreateMineshaft(Model.MineshaftNumber + 1, 1, View.NextShaftView.NextShaftPosition);
+            // TODO Get mine id from controller
+            _mineshaftFactory.CreateMineshaft("mine_1", Model.MineshaftNumber + 1, 1, View.NextShaftView.NextShaftPosition);
         }
     }
 }

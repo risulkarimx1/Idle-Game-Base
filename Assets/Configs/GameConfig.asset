@@ -19,6 +19,7 @@ MonoBehaviour:
     type: 2}
   _warehouseWorkerConfig: {fileID: 11400000, guid: 54ec3ae534d84ae4fa71c4435fa8383e,
     type: 2}
+  _minesConfig: {fileID: 11400000, guid: d27692a3a7c0146198c2e10214b3145b, type: 2}
   ActorUpgradePriceIncrement: 1.12
   ActorUpgradeSkillIncrement: 1.1
   ActorPriceIncrementPerShaft: 6

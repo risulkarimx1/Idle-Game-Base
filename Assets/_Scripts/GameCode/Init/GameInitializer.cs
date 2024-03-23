@@ -2,7 +2,7 @@
 using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Mineshaft;
-using GameCode.Persistance;
+using GameCode.Persistence;
 using GameCode.UI;
 using GameCode.Utils;
 using GameCode.Warehouse;
@@ -23,13 +23,15 @@ namespace GameCode.Init
 
         public void OnAllInitFinished()
         {
-            var mineShaftLevels = _dataManager.Get<GameLevelData>().GetMineShaftLevels().Clone();
+            var mineId = "mine_1";
+            var minesData = _dataManager.Get<MinesData>();
+            var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             
             var mineShaftPosition = _mineshaftStartingPosition.position;
             
             foreach (var mineShaftLevel in mineShaftLevels)
             {
-               var controller = _mineshaftFactory.CreateMineshaft(mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
+               var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
                mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
             }
         }

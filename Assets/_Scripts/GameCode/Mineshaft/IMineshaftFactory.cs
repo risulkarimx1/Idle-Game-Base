@@ -4,6 +4,6 @@ namespace GameCode.Mineshaft
 {
     public interface IMineshaftFactory
     {
-        MineshaftController CreateMineshaft(int mineshaftNumber, int mineshaftLevel, Vector2 position);
+        MineshaftController CreateMineshaft(string mineId, int mineshaftNumber, int mineshaftLevel, Vector2 position);
     }
 }

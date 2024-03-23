@@ -1,3 +1,5 @@
+using GameCode.Init;
+using GameCode.Mines;
 using Services.GameInitFramework;
 using Services.LoadingScreen;
 using Services.LogFramework;
@@ -9,14 +11,14 @@ namespace LevelLoaderScripts
     public class GameLevelLoadingService: IInitializableAfterAll
     {
         [Inject] private SceneFlowService _sceneFlowService;
-        [Inject] private LevelsConfig _levelsConfig;
+        [Inject] private GameConfig _gameConfig;
         [Inject] private LoadingController _loadingController;
         
 
         public async void OnAllInitFinished()
         {
             Debug.Log("All components loaded", LogContext.SceneFlow);
-            var levelsAssets = _levelsConfig.GetLevelInformation("level_1");
+            var levelsAssets = _gameConfig.MinesConfig.GetLevelInformation("mine_1").AssetKeys;
             await _loadingController.Appear();
             await _sceneFlowService.SwitchScene(SceneFlowService.GameScene, true, levelsAssets);
             await _loadingController.Hide();

@@ -7,12 +7,14 @@ namespace GameCode.Signals
     {
         public class MineshaftCreatedSignal
         {
+            public string MineId { get; private set; }
             public int MineshaftNumber { get; private set; }
             public MineshaftModel MineshaftModel { get; private set; }
             public Vector2 Position { get; private set; }
 
-            public MineshaftCreatedSignal(int mineshaftNumber, MineshaftModel mineshaftModel, Vector2 position)
+            public MineshaftCreatedSignal(string mineId, int mineshaftNumber, MineshaftModel mineshaftModel, Vector2 position)
             {
+                MineId = mineId;
                 MineshaftNumber = mineshaftNumber;
                 MineshaftModel = mineshaftModel;
                 Position = position;

@@ -60,7 +60,7 @@ namespace Installer.GameSceneInstallers
             Container.BindInterfacesAndSelfTo<WarehouseController>().AsSingle().NonLazy();
             
             // Initiate Game Data Services
-            Container.BindInterfacesAndSelfTo<MineshaftDataService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MineDataService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameInitializer>().AsSingle().NonLazy();
         }
 
