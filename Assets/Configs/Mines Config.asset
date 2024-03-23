@@ -21,10 +21,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _levelsToAssetsMap
+    - Name: _minesInformation
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[System.String[],
-        mscorlib]], mscorlib
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[GameCode.Mines.MinesInformation,
+        Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
       Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
@@ -40,10 +40,22 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: level_1
+      Data: mine_1
     - Name: $v
       Entry: 7
-      Data: 2|System.String[], mscorlib
+      Data: 2|GameCode.Mines.MinesInformation, Assembly-CSharp
+    - Name: <MineId>k__BackingField
+      Entry: 1
+      Data: mine_1
+    - Name: <MineName>k__BackingField
+      Entry: 1
+      Data: ' South Eastern Coalfield'
+    - Name: <MineDescription>k__BackingField
+      Entry: 1
+      Data: Dig deep, strike coal, and party like a coal tycoon!
+    - Name: <AssetKeys>k__BackingField
+      Entry: 7
+      Data: 3|System.String[], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -60,14 +72,29 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: level_2
+      Data: mine_2
     - Name: $v
       Entry: 7
-      Data: 3|System.String[], mscorlib
+      Data: 4|GameCode.Mines.MinesInformation, Assembly-CSharp
+    - Name: <MineId>k__BackingField
+      Entry: 1
+      Data: mine_2
+    - Name: <MineName>k__BackingField
+      Entry: 1
+      Data: The North Antelope Rochelle
+    - Name: <MineDescription>k__BackingField
+      Entry: 1
+      Data: Where even ants mine coal; join the coal empire!
+    - Name: <AssetKeys>k__BackingField
+      Entry: 7
+      Data: 5|System.String[], mscorlib
     - Name: 
       Entry: 12
       Data: 1
@@ -84,10 +111,17 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-  defaultAssetsKey:
-  - environment.scene.1
+  defaultMineInformation:
+    <MineId>k__BackingField: mine_1
+    <MineName>k__BackingField: ' South Eastern Coalfield Limited'
+    <MineDescription>k__BackingField: 
+    <AssetKeys>k__BackingField:
+    - environment.scene.1

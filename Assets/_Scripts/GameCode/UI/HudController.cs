@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using GameCode.Finance;
+using GameCode.Mines;
 using GameCode.Tutorial;
 using Services.SceneFlowServices;
 using UniRx;
@@ -12,6 +13,7 @@ namespace GameCode.UI
         private readonly HudView _view;
 
         [Inject] private SceneFlowService _sceneFlowService;
+        [Inject] private MineSelectionController _mineSelectionController;
         
         [Inject]
         public HudController(HudView view, FinanceModel financeModel, ITutorialModel tutorialModel,
@@ -29,6 +31,11 @@ namespace GameCode.UI
             _view.ResetButton.OnClickAsObservable().Subscribe(_ =>
             {
                  _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true).Forget();
+            }).AddTo(disposable);
+
+            _view.MapButton.OnClickAsObservable().Subscribe( _ =>
+            {
+                _mineSelectionController.ShowAsync().Forget();
             }).AddTo(disposable);
         }
 

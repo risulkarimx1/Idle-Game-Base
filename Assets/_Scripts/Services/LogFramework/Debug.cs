@@ -9,7 +9,8 @@ namespace Services.LogFramework
         DataManager = 1,
         SceneFlow = 2,
         LevelConfig =3,
-        FinanceModel = 4
+        FinanceModel = 4,
+        MineSelection = 5
     }
     public static partial class Debug
     {

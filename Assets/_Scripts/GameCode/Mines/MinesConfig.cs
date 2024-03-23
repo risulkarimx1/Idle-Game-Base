@@ -13,10 +13,12 @@ namespace GameCode.Mines
 
         [SerializeField]
         private Dictionary<string, MinesInformation> _minesInformation;
-        
+
+        public Dictionary<string, MinesInformation> MinesInformation => _minesInformation;
+
         public MinesInformation GetLevelInformation(string mineId)
         {
-            if (_minesInformation.TryGetValue(mineId, out MinesInformation mineInformation))
+            if (MinesInformation.TryGetValue(mineId, out MinesInformation mineInformation))
                 return mineInformation;
 
             Debug.LogError($"Assets Key with id {mineId} not found in the levels config", LogContext.LevelConfig);

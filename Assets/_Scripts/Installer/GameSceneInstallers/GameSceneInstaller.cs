@@ -2,6 +2,7 @@ using GameCode.CameraRig;
 using GameCode.Elevator;
 using GameCode.Finance;
 using GameCode.Init;
+using GameCode.Mines;
 using GameCode.Mineshaft;
 using GameCode.Signals;
 using GameCode.Tutorial;
@@ -25,6 +26,7 @@ namespace Installer.GameSceneInstallers
         [BoxGroup("Game Scene Prefabs")] [SerializeField] private CameraView cameraRigPrefab;
         [BoxGroup("Game Scene Prefabs")] [SerializeField] private WarehouseView warehouseViewPrefab;
         [BoxGroup("Game Scene Prefabs")] [SerializeField] private ElevatorView elevatorViewPrefab;
+        [BoxGroup("Game Scene Prefabs")] [SerializeField] private MineSelectionView mineSelectionViewPrefab;
         public override void InstallBindings()
         {
             InstallSignals();
@@ -58,6 +60,10 @@ namespace Installer.GameSceneInstallers
             // Warehouse
             Container.BindInterfacesAndSelfTo<WarehouseModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<WarehouseController>().AsSingle().NonLazy();
+            
+            // Mine Selection
+            Container.Bind<MineSelectionView>().FromComponentInNewPrefab(mineSelectionViewPrefab).AsSingle();
+            Container.BindInterfacesAndSelfTo<MineSelectionController>().AsSingle();
             
             // Initiate Game Data Services
             Container.BindInterfacesAndSelfTo<MineDataService>().AsSingle().NonLazy();

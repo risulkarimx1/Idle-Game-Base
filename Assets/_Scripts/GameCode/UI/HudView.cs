@@ -9,6 +9,7 @@ namespace GameCode.UI
         [SerializeField] private TMP_Text _cashAmount;
         [SerializeField] private GameObject _tooltip;
         [SerializeField] private Button _resetButton;
+        [SerializeField] private Button _mapButton;
 
         public double CashAmount
         {
@@ -21,5 +22,7 @@ namespace GameCode.UI
         }
 
         public Button ResetButton => _resetButton;
+
+        public Button MapButton => _mapButton;
     }
 }
