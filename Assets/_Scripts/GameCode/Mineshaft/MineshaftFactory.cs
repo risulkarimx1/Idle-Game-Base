@@ -2,6 +2,8 @@
 using GameCode.Init;
 using GameCode.Mineshaft;
 using GameCode.Signals;
+using LevelLoaderScripts;
+using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -19,8 +21,9 @@ public class MineshaftFactory : IMineshaftFactory
     public MineshaftController CreateMineshaft(string mineId, int mineshaftNumber, int mineshaftLevel, Vector2 position)
     {
         var view = GameObject.Instantiate(_config.MineshaftConfig.MineshaftPrefab, position, Quaternion.identity);
+        SceneFlowService.MoveObjectToScene(view.gameObject, SceneFlowService.GameScene);
         var mineshaftModel = new MineshaftModel(mineshaftNumber, mineshaftLevel, _config, _financeModel, _disposable);
-        var controller = new MineshaftController(view, mineshaftModel, this, _config, _disposable);
+        var controller = new MineshaftController(view, mineshaftModel, this, _config, _disposable, mineId);
         _collectionModel.RegisterMineshaft(mineshaftNumber, mineshaftModel, view);
         _signalBus.Fire(new GameSignals.MineshaftCreatedSignal(mineId, mineshaftNumber, mineshaftModel, position));
         return controller;

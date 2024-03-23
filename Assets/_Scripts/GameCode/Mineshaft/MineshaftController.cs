@@ -12,13 +12,15 @@ namespace GameCode.Mineshaft
         public MineshaftModel Model => _model;
         
         private readonly IMineshaftFactory _mineshaftFactory;
-
+        private readonly string _mineId;
+        
         public MineshaftController(MineshaftView view, MineshaftModel model, IMineshaftFactory mineshaftFactory,
-            GameConfig gameConfig, CompositeDisposable disposable)
+            GameConfig gameConfig, CompositeDisposable disposable, string mineId)
         {
             _view = view;
             _model = model;
             _mineshaftFactory = mineshaftFactory;
+            _mineId = mineId;
             var workerModel = new WorkerModel(model, gameConfig.MineshaftWorkerConfig, disposable);
             new MineshaftWorkerController(view, model, workerModel, disposable);
 
@@ -44,6 +46,7 @@ namespace GameCode.Mineshaft
             view.NextShaftView.Cost = model.NextShaftPrice.ToString("F0");
             var canBuyNextShaft = model.CanBuyNextShaft.ToReactiveCommand();
             canBuyNextShaft.BindTo(view.NextShaftView.Button).AddTo(disposable);
+            
             canBuyNextShaft.Subscribe(_ => BuyNextShaft())
                 .AddTo(disposable);
         }
@@ -57,8 +60,7 @@ namespace GameCode.Mineshaft
         {
             Model.BuyNextShaft();
             View.NextShaftView.Visible = false;
-            // TODO Get mine id from controller
-            _mineshaftFactory.CreateMineshaft("mine_1", Model.MineshaftNumber + 1, 1, View.NextShaftView.NextShaftPosition);
+            _mineshaftFactory.CreateMineshaft(_mineId, Model.MineshaftNumber + 1, 1, View.NextShaftView.NextShaftPosition);
         }
     }
 }

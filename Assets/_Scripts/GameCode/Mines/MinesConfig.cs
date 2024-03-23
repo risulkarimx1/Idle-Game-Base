@@ -16,13 +16,15 @@ namespace GameCode.Mines
 
         public Dictionary<string, MinesInformation> MinesInformation => _minesInformation;
 
+        public MinesInformation DefaultMineInformation => defaultMineInformation;
+
         public MinesInformation GetLevelInformation(string mineId)
         {
             if (MinesInformation.TryGetValue(mineId, out MinesInformation mineInformation))
                 return mineInformation;
 
             Debug.LogError($"Assets Key with id {mineId} not found in the levels config", LogContext.LevelConfig);
-            return defaultMineInformation;
+            return DefaultMineInformation;
         }
     }
 }

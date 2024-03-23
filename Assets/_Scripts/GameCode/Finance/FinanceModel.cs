@@ -34,7 +34,7 @@ namespace GameCode.Finance
             }
 
             _money.Value += amount;
-            // TODO: We only add revinew from idle income. We can segregate that from different sources of income.
+            // TODO: We only add revenue from idle income. We can segregate that from different sources of income.
             _earnedMoney.Value += amount;
         }
 

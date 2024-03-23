@@ -1,5 +1,10 @@
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
+using GameCode.Persistence;
+using LevelLoaderScripts;
+using Services.DataFramework;
+using Services.SceneFlowServices;
+using UnityEditor.SearchService;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +14,8 @@ namespace GameCode.Mines
     {
         [Inject] private MineSelectionView _mineSelectionView;
         [Inject] private GameConfig _config;
+        [Inject] private SceneFlowService _sceneFlowService;
+        [Inject] private GameSessionProvider _sessionProvider;
         
         public async UniTask ShowAsync()
         {
@@ -36,8 +43,10 @@ namespace GameCode.Mines
 
         private async void OnMineSelected(string mineId)
         {
+            await _sessionProvider.UpdateMineId(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}");
+            await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
         }
     }
 }

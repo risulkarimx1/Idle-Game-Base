@@ -1,11 +1,8 @@
 ﻿using System;
-using GameCode.CameraRig;
-using GameCode.Elevator;
 using GameCode.Mineshaft;
 using GameCode.Persistence;
-using GameCode.UI;
 using GameCode.Utils;
-using GameCode.Warehouse;
+using LevelLoaderScripts;
 using Services.DataFramework;
 using Services.GameInitFramework;
 using UniRx;
@@ -20,13 +17,15 @@ namespace GameCode.Init
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private DataManager _dataManager;
+        [Inject] private GameConfig _config;
+        [Inject] private GameSessionProvider _gameSessionProvider;
 
         public void OnAllInitFinished()
         {
-            var mineId = "mine_1";
+            var mineId = _gameSessionProvider.SessionMineId;
             var minesData = _dataManager.Get<MinesData>();
-            var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             
+            var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             var mineShaftPosition = _mineshaftStartingPosition.position;
             
             foreach (var mineShaftLevel in mineShaftLevels)
@@ -34,6 +33,17 @@ namespace GameCode.Init
                var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
                mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
             }
+        }
+
+        private string GetCurrentMineId(PlayerData playerData)
+        {
+            var mineId = string.Empty;
+            if (!string.IsNullOrEmpty(playerData.MineId)) return mineId;
+            
+            mineId = _config.MinesConfig.DefaultMineInformation.MineId;
+            playerData.MineId = mineId;
+
+            return mineId;
         }
 
         public async void Dispose()

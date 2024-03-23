@@ -1,5 +1,6 @@
 using GameCode.Init;
 using GameCode.TimeProvider;
+using LevelLoaderScripts;
 using Services.GameInitFramework;
 using Services.SceneFlowServices;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace Installer.ProjectContextInstaller
             Container.BindInterfacesAndSelfTo<SystemTimeProvider>().AsSingle();
             Container.BindInterfacesAndSelfTo<Bootstrapper>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneFlowService>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameSessionProvider>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitManager>().AsSingle().CopyIntoAllSubContainers();
         }
     }

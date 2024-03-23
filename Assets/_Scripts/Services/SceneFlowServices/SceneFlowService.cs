@@ -18,7 +18,7 @@ namespace Services.SceneFlowServices
 
         public string CurrentScene { get; set; }
         
-        private Dictionary<string, List<AsyncOperationHandle<GameObject>>> _sceneAssetHandles = new Dictionary<string, List<AsyncOperationHandle<GameObject>>>();
+        private Dictionary<string, List<AsyncOperationHandle<GameObject>>> _sceneAssetHandles = new();
 
 
         public async UniTask SwitchScene(string sceneName, bool unloadCurrentScene = true, string [] assetKeys = null)

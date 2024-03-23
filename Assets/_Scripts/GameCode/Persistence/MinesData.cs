@@ -29,13 +29,13 @@ namespace GameCode.Persistence
 
         public int ElevatorLevel
         {
-            get => _elevatorLevel;
+            get => Math.Max(1, _elevatorLevel);
             set => _elevatorLevel = value;
         }
 
         public int WarehouseLevel
         {
-            get => _warehouseLevel;
+            get => Math.Max(1, _warehouseLevel);
             set => _warehouseLevel = value;
         }
 

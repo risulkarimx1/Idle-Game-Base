@@ -25,6 +25,7 @@ namespace Services.DataFramework
         [Inject] private IEncryptionService _encryptionService;
 
         [Inject] private IDataHandler _dataHandler;
+        [Inject] private DiContainer _container;
 
         private readonly ReactiveProperty<bool> _isInitialized = new();
         public bool InitFinished => _isInitialized.Value;
@@ -86,6 +87,8 @@ namespace Services.DataFramework
         {
             var data = await LoadAsync<T>();
             _typeToDataMatch.Add(typeof(T), data);
+            // Bind the type T to its instance in the DiContainer
+            _container.Bind<T>().FromInstance(data).AsSingle();
         }
 
         public UniTask SaveAsync<T>() where T : BaseData
