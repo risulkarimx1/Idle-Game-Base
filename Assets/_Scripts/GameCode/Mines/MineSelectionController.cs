@@ -36,7 +36,8 @@ namespace GameCode.Mines
             foreach (var mine in _config.MinesConfig.MinesInformation)
             {
                 var mineInfoItemView = GameObject.Instantiate(_mineSelectionView.MineInfoItemViewPrefab, _mineSelectionView.ContentParent);
-                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected);
+                var currentMine = _sessionProvider.SessionMineId == mine.Key;
+                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected, currentMine);
             }
 
             await UniTask.Yield();
@@ -44,6 +45,7 @@ namespace GameCode.Mines
 
         private async void OnMineSelected(string mineId)
         {
+            if(_sessionProvider.SessionMineId == mineId) return;
             await _sessionProvider.UpdateSessionMineId(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}");

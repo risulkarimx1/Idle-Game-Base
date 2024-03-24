@@ -74,6 +74,7 @@ namespace Installer.GameSceneInstallers
         {
             SignalBusInstaller.Install(Container);
             Container.DeclareSignal<GameSignals.MineshaftCreatedSignal>();
+            Container.DeclareSignal<GameSignals.DepositSignal>();
         }
     }
 }

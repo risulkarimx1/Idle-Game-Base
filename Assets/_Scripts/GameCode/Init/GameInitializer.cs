@@ -48,14 +48,14 @@ namespace GameCode.Init
             var logOffTime = _dataManager.Get<PassiveIncomeData>().GetLogOffTime(mineId, _timeProvider);
             var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
             var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
-            _financeModel.AddResource(totalPassiveIncome);
+            _financeModel.AddResource(totalPassiveIncome, true);
             _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
         }
 
         private void SetupFinanceModel()
         {
             var money = Math.Max(_config.StartingMoney, _dataManager.Get<PlayerData>().Money);
-            _financeModel.AddResource(money);
+            _financeModel.AddResource(money, true);
             _financeModel.Money.Subscribe(value =>
             {
                 _dataManager.Get<PlayerData>().Money = value;

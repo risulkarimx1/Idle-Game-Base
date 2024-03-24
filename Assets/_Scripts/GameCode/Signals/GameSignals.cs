@@ -12,12 +12,23 @@ namespace GameCode.Signals
             public MineshaftModel MineshaftModel { get; private set; }
             public Vector2 Position { get; private set; }
 
-            public MineshaftCreatedSignal(string mineId, int mineshaftNumber, MineshaftModel mineshaftModel, Vector2 position)
+            public MineshaftCreatedSignal(string mineId, int mineshaftNumber, MineshaftModel mineshaftModel,
+                Vector2 position)
             {
                 MineId = mineId;
                 MineshaftNumber = mineshaftNumber;
                 MineshaftModel = mineshaftModel;
                 Position = position;
+            }
+        }
+
+        public class DepositSignal
+        {
+            public double Amount { get; private set; }
+
+            public DepositSignal(double amount)
+            {
+                Amount = amount;
             }
         }
     }

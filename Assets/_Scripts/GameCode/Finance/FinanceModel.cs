@@ -1,4 +1,5 @@
-﻿using LevelLoaderScripts;
+﻿using GameCode.Signals;
+using LevelLoaderScripts;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -8,27 +9,20 @@ namespace GameCode.Finance
     public interface IFinanceModel
     {
         IReadOnlyReactiveProperty<double> Money { get; }
-        IReactiveProperty<double> EarnedMoney { get; }
-        void AddResource(double amount);
+        void AddResource(double amount, bool initialDeposit = false);
         double DrawResource(double amount);
     }
     public class FinanceModel: IFinanceModel
     {
         private readonly IReactiveProperty<double> _money;
         public IReadOnlyReactiveProperty<double> Money => _money;
-
-        public IReactiveProperty<double> EarnedMoney => _earnedMoney;
-
-        private readonly IReactiveProperty<double> _earnedMoney;
-        [Inject] private GameSessionProvider _gameSessionProvider;
-        
+        [Inject] private SignalBus _signalBus;
         public FinanceModel()
         {
             _money = new ReactiveProperty<double>(0);
-            _earnedMoney = new ReactiveProperty<double>(_money.Value);
         }
 
-        public void AddResource(double amount)
+        public void AddResource(double amount, bool initialDeposit = false)
         {
             if (amount < 0)
             {
@@ -37,8 +31,10 @@ namespace GameCode.Finance
             }
 
             _money.Value += amount;
-            // TODO: We only add revenue from idle income. We can segregate that from different sources of income.
-            _earnedMoney.Value += amount;
+            
+            if (!initialDeposit)
+                _signalBus.Fire(new GameSignals.DepositSignal(amount));
+            
         }
 
         public double DrawResource(double amount)
