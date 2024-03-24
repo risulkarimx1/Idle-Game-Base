@@ -36,6 +36,8 @@ namespace Services.DataFramework
 
         public async UniTask SaveAsync(string fileName, BaseData data)
         {
+            if(data.IsDirty == false) return;
+            
             var filePath = Path.Combine(_directoryPath, $"{fileName}");
 
             var serializedData = JsonConvert.SerializeObject(data);

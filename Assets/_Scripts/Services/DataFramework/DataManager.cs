@@ -110,8 +110,8 @@ namespace Services.DataFramework
 
         private string GetIdentifier(Type t)
         {
-            if (_typeToFileNameMatch.ContainsKey(t))
-                return _typeToFileNameMatch[t];
+            if (_typeToFileNameMatch.TryGetValue(t, out var identifier))
+                return identifier;
 
             var attribute = t.GetCustomAttribute<DataIdentifierAttribute>()?.Identifier ?? t.Name;
             var dataIdentifier = $"{attribute}_v{Key}.json";
