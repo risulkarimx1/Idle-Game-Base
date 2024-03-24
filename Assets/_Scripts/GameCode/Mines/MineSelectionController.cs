@@ -1,11 +1,10 @@
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
-using GameCode.Persistence;
 using LevelLoaderScripts;
-using Services.DataFramework;
 using Services.SceneFlowServices;
-using UnityEditor.SearchService;
+using UniRx;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace GameCode.Mines
@@ -16,11 +15,13 @@ namespace GameCode.Mines
         [Inject] private GameConfig _config;
         [Inject] private SceneFlowService _sceneFlowService;
         [Inject] private GameSessionProvider _sessionProvider;
+        [Inject] private CompositeDisposable _disposable;
         
         public async UniTask ShowAsync()
         {
             await PrepareItemsAsync();
             await _mineSelectionView.ShowMineSelectionUiFlowAsync();
+            ConfigureBackButtons();
         }
 
         private async UniTask PrepareItemsAsync()
@@ -47,6 +48,20 @@ namespace GameCode.Mines
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}");
             await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
+        }
+        
+        private void ConfigureBackButtons()
+        {
+            ConfigureButton(_mineSelectionView.BackdropButton);
+            ConfigureButton(_mineSelectionView.CloseButton);
+        }
+
+        private void ConfigureButton(Button button)
+        {
+            button.OnClickAsObservable().Subscribe(async _ =>
+            {
+                await _mineSelectionView.HideMineSelectionUiFlow();
+            }).AddTo(_disposable);
         }
     }
 }
