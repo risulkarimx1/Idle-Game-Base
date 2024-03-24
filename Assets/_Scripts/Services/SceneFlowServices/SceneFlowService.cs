@@ -11,10 +11,9 @@ namespace Services.SceneFlowServices
 {
     public class SceneFlowService
     {
-        public static string GameScene { get; set; } = "GameScene";
-        
-        public static string LevelLoaderScene { get; set; } = "LevelLoaderScene";
-        public static string BootScene { get; set; } = "BootScene";
+        public static string GameScene => "GameScene";
+        public static string LevelLoaderScene => "LevelLoaderScene";
+        public static string BootScene => "BootScene";
 
         public string CurrentScene { get; set; }
         
