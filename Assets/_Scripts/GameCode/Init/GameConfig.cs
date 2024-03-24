@@ -15,6 +15,8 @@ namespace GameCode.Init
         [field: SerializeField] public float ActorPriceIncrementPerShaft { get; private set; }
         [field: SerializeField] public float ActorSkillIncrementPerShaft { get; private set; }
         [field: SerializeField] public int StartingMoney { get; private set; }
+        
+        [field: SerializeField] public double WareHouseBasePrice = 60;
 
         [field: SerializeField] public MineshaftConfig MineshaftConfig { get; private set; }
         [field: SerializeField] public WorkerConfig MineshaftWorkerConfig { get; private set; }

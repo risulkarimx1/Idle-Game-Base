@@ -10,16 +10,12 @@ using Zenject;
 
 namespace Services.GameInitFramework
 {
-    public class GameInitManager: IInitProgressReporter, IInitializable
+    public class GameInitManager: IInitializable
     {
-        public bool AllInitFinished;
-
         private DiContainer _container;
         private IRequireInit[] _initSources;
         private Dictionary<Type, IList> _initializablesBySource;
         private IInitializableAfterAll[] _afterAllInitializables;
-
-        public ReactiveProperty<float> OnProgressUpdated { get; set; } = new();
 
         public GameInitManager(DiContainer container, 
             [Inject(Optional = true, Source = InjectSources.Any)] 
@@ -60,27 +56,19 @@ namespace Services.GameInitFramework
             }
         }
 
-        private async UniTaskVoid WaitForAll()
+        private async UniTask WaitForAll()
         {
             var tasks = new UniTask[_initSources.Length];
             for (var i = 0; i < _initSources.Length; i++)
             {
                 tasks[i] = WaitForInit(_initSources[i]);
-                await tasks[i].ContinueWith(() => UpdateProgress((i + 1) / (float)_initSources.Length));
             }
-                
-            // await UniTask.WhenAll(tasks);
+
+            await UniTask.WhenAll(tasks);
+            
             await UniTask.Yield();
             foreach (var initializable in _afterAllInitializables)
                 initializable.OnAllInitFinished();
-            AllInitFinished = true;
-            await UpdateProgress(1f);
-        }
-
-        private UniTask UpdateProgress(float initSourcesLength)
-        {
-            OnProgressUpdated.Value = initSourcesLength;
-            return UniTask.CompletedTask;
         }
 
         private async UniTask WaitForInit(IRequireInit source)

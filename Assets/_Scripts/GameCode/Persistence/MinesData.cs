@@ -11,6 +11,9 @@ namespace GameCode.Persistence
     {
         [JsonProperty("mine_id")] 
         private string _mineId;
+
+        private readonly MinesData _minesData;
+
         [JsonProperty("mine_shaft_levels")] 
         private Dictionary<int, int> _mineShaftLevels;
         [JsonProperty("elevator_level")]
@@ -18,9 +21,10 @@ namespace GameCode.Persistence
         [JsonProperty("warehouse_level")]
         private int _warehouseLevel;
 
-        public MineData(string mineId)
+        public MineData(string mineId, MinesData minesData)
         {
             _mineId = mineId;
+            _minesData = minesData;
             _mineShaftLevels = new Dictionary<int, int>
             {
                 { 1, 1 }
@@ -30,16 +34,23 @@ namespace GameCode.Persistence
         public int ElevatorLevel
         {
             get => Math.Max(1, _elevatorLevel);
-            set => _elevatorLevel = value;
+            set
+            {
+                _elevatorLevel = value;
+                _minesData?.SetDirty();
+            }
         }
 
         public int WarehouseLevel
         {
             get => Math.Max(1, _warehouseLevel);
-            set => _warehouseLevel = value;
+            set
+            {
+                _warehouseLevel = value;
+                _minesData?.SetDirty();
+            }
         }
-
-
+        
         public void Copy(MineData mineData)
         {
             _mineId = mineData._mineId;
@@ -56,13 +67,13 @@ namespace GameCode.Persistence
         public int GetMineShaftLevel(int mineShaftNumber)
         {
             TryCreateMineshaft(mineShaftNumber);
-
             return _mineShaftLevels[mineShaftNumber];
         }
         public void SetMineShaftLevel(int mineShaftNumber, int level)
         {
             TryCreateMineshaft(mineShaftNumber);
             _mineShaftLevels[mineShaftNumber] = level;
+            _minesData?.SetDirty();
         }
 
         private void TryCreateMineshaft(int mineShaftNumber)
@@ -95,53 +106,11 @@ namespace GameCode.Persistence
             return GetMineshaftLevels(mineId).Clone();
         }
 
-        public int GetElevatorLevel(string mineId)
-        {
-            var mineData = GetMineData(mineId);
-            return mineData.ElevatorLevel;
-        }
-        public int GetWarehouseLevel(string mineId)
-        {
-            var mineData = GetMineData(mineId);
-            return mineData.WarehouseLevel;
-        }
-        
-        public void UpdateMineData(string mineId, MineData newMineData)
-        {
-            var mineData = GetMineData(mineId);
-            mineData.Copy(newMineData);
-            SetDirty();
-        }
-
         private void TryCreateMineData(string mineId)
         {
             if (_mineData.ContainsKey(mineId)) return;
-            var mineData = new MineData(mineId);
+            var mineData = new MineData(mineId, this);
             _mineData.Add(mineId, mineData);
-        }
-        
-        
-        // Set Method
-        
-        public void SetMineShaftLevel(string mineId, int mineShaftNumber, int level)
-        {
-            var mineData = GetMineData(mineId);
-            mineData.SetMineShaftLevel(mineShaftNumber, level);
-            SetDirty();
-        }
-
-        public void SetWarehouseLevel(string mineId, int level)
-        {
-            var mineData = GetMineData(mineId);
-            mineData.WarehouseLevel = level;
-            SetDirty();
-        }
-
-        public void SetElevatorLevel(string mineId, int level)
-        {
-            var mineData = GetMineData(mineId);
-            mineData.ElevatorLevel = level;
-            SetDirty();
         }
     }
 }

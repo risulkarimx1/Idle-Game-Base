@@ -87,13 +87,12 @@ namespace Services.DataFramework
         {
             var data = await LoadAsync<T>();
             _typeToDataMatch.Add(typeof(T), data);
-            // Bind the type T to its instance in the DiContainer
-            _container.Bind<T>().FromInstance(data).AsSingle();
         }
 
         public UniTask SaveAsync<T>() where T : BaseData
         {
-            BaseData data = _typeToDataMatch[typeof(T)];
+            var data = _typeToDataMatch[typeof(T)];
+            if (data.IsDirty == false) return UniTask.CompletedTask;
 
             var fileName = GetIdentifier(typeof(T));
             return _dataHandler.SaveAsync(fileName, data);

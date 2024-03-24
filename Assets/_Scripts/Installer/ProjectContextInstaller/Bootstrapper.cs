@@ -10,7 +10,6 @@ namespace Installer.ProjectContextInstaller
 {
     public class Bootstrapper: IInitializable, IDisposable, IInitializableAfterAll
     {
-        [Inject] private IInitProgressReporter _progressReporter;
         [Inject] private LoadingController _loadingController;
         [Inject] private SceneFlowService _sceneFlowService;
 
@@ -20,10 +19,6 @@ namespace Installer.ProjectContextInstaller
         {
             _sceneFlowService.CurrentScene = SceneFlowService.LevelLoaderScene;
             await _loadingController.Appear();
-            _progressReporter.OnProgressUpdated.Subscribe(async value =>
-            {
-                
-            }).AddTo(_disposable);
         }
         
         // add a method to hot reload the game

@@ -1,6 +1,7 @@
 ﻿using GameCode.Finance;
 using GameCode.GameArea;
 using GameCode.Init;
+using LevelLoaderScripts;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -12,20 +13,20 @@ namespace GameCode.Warehouse
         private readonly GameConfig _config;
         private readonly FinanceModel _financeModel;
         
-        
-        private const double BasePrice = 60;
         private readonly IReactiveProperty<double> _upgradePrice;
         private readonly IReactiveProperty<int> _level;
 
         [Inject]
-        public WarehouseModel( GameConfig config, FinanceModel financeModel, CompositeDisposable disposable)
+        public WarehouseModel( GameConfig config, FinanceModel financeModel, CompositeDisposable disposable,GameSessionProvider gameSessionProvider)
         {
             _config = config;
             _financeModel = financeModel;
+
+            var warehouseLevel = gameSessionProvider.SessionMineData().WarehouseLevel;
+            _level = new ReactiveProperty<int>(warehouseLevel);
             
-            _level = new ReactiveProperty<int>(1); // will be taken from data
             SkillMultiplier = Mathf.Pow(_config.ActorSkillIncrementPerShaft, 1) * Mathf.Pow(config.ActorUpgradeSkillIncrement, _level.Value - 1);
-            _upgradePrice = new ReactiveProperty<double>(BasePrice * Mathf.Pow(_config.ActorUpgradePriceIncrement, _level.Value - 1));
+            _upgradePrice = new ReactiveProperty<double>(_config.WareHouseBasePrice * Mathf.Pow(_config.ActorUpgradePriceIncrement, _level.Value - 1));
             CanUpgrade = _financeModel.Money
                 .Select(money => money >= _upgradePrice.Value)
                 .ToReadOnlyReactiveProperty()
