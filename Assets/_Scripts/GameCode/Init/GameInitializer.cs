@@ -48,6 +48,7 @@ namespace GameCode.Init
             var logOffTime = _dataManager.Get<PassiveIncomeData>().GetLogOffTime(mineId, _timeProvider);
             var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
             var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
+            if(totalPassiveIncome <= 0) return;
             _financeModel.AddResource(totalPassiveIncome, true);
             _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
         }
