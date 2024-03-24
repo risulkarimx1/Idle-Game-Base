@@ -2,6 +2,8 @@
 using GameCode.Finance;
 using GameCode.Mineshaft;
 using GameCode.Persistence;
+using GameCode.TimeProvider;
+using GameCode.UI;
 using GameCode.Utils;
 using LevelLoaderScripts;
 using Services.DataFramework;
@@ -14,13 +16,17 @@ namespace GameCode.Init
 {
     public class GameInitializer : IInitializableAfterAll, IDisposable
     {
-        [Inject(Id = GameConstants.FirtMinePositionObjectTag)] private Transform _mineshaftStartingPosition;
+        [Inject(Id = GameConstants.FirtMinePositionObjectTag)] 
+        private Transform _mineshaftStartingPosition;
+        
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private DataManager _dataManager;
         [Inject] private GameConfig _config;
         [Inject] private GameSessionProvider _gameSessionProvider;
         [Inject] private FinanceModel _financeModel;
+        [Inject] private ITimeProvider _timeProvider;
+        [Inject] private HudController _hudController;
 
         public void OnAllInitFinished()
         {
@@ -30,6 +36,20 @@ namespace GameCode.Init
             SetupMineShafts(minesData, mineId);
 
             SetupFinanceModel();
+
+            SetupPassiveIncome();
+        }
+
+        private void SetupPassiveIncome()
+        {
+            if(_config.EnablePassiveIncome == false) return;
+            var mineId = _gameSessionProvider.SessionMineId;
+            var incomeRate = _dataManager.Get<FinanceData>().GetDepositRate(mineId);
+            var logOffTime = _dataManager.Get<PassiveIncomeData>().GetLogOffTime(mineId, _timeProvider);
+            var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
+            var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
+            _financeModel.AddResource(totalPassiveIncome);
+            _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
         }
 
         private void SetupFinanceModel()

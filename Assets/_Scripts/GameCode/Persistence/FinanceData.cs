@@ -8,9 +8,9 @@ namespace GameCode.Persistence
     public class FinanceData: BaseData
     {
         [JsonProperty("deposit_rate")]
-        private Dictionary<int,double> _depositRates = new();
+        private Dictionary<string,double> _depositRates = new();
 
-        public void SetDepositRate(int mineId, double depositRate)
+        public void SetDepositRate(string mineId, double depositRate)
         {
             if (_depositRates.ContainsKey(mineId) == false)
             {
@@ -23,7 +23,7 @@ namespace GameCode.Persistence
             SetDirty();
         }
 
-        public double GetDepositRate(int mineId)
+        public double GetDepositRate(string mineId)
         {
             _depositRates.TryAdd(mineId, 0);
 

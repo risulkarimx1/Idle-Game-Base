@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
 using GameCode.Persistence;
+using GameCode.TimeProvider;
 using Services.DataFramework;
 using Zenject;
 
@@ -10,6 +11,7 @@ namespace LevelLoaderScripts
     {
         [Inject] private DataManager _dataManager;
         [Inject] private GameConfig _config;
+        [Inject] private ITimeProvider _timeProvider;
 
         public string SessionMineId
         {
@@ -39,6 +41,7 @@ namespace LevelLoaderScripts
         public async UniTask UpdateSessionMineId(string mineId)
         {
             _dataManager.Get<PlayerData>().MineId = mineId;
+            _dataManager.Get<PassiveIncomeData>().UpdateLoggOffTime(mineId, _timeProvider);
             await _dataManager.SaveAllAsync();
         }
     }

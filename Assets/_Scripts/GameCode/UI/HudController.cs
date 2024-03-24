@@ -28,10 +28,6 @@ namespace GameCode.UI
             tutorialModel.ShouldShowTooltip
                 .Subscribe(UpdateTooltipVisibility)
                 .AddTo(disposable);
-            _view.ResetButton.OnClickAsObservable().Subscribe(_ =>
-            {
-                 _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true).Forget();
-            }).AddTo(disposable);
 
             _view.MapButton.OnClickAsObservable().Subscribe( _ =>
             {
@@ -42,6 +38,10 @@ namespace GameCode.UI
         private void UpdateTooltipVisibility(bool shouldShowTooltip)
         {
             _view.TooltipVisible = shouldShowTooltip;
+        }
+        public void ShowPassiveIncomeTooltip(string text)
+        {
+            _view.ShowPassiveIncomeTooltip(text);
         }
     }
 }
