@@ -2,7 +2,6 @@ using Cysharp.Threading.Tasks;
 using GameCode.Init;
 using GameCode.Persistence;
 using Services.DataFramework;
-using Services.GameInitFramework;
 using Zenject;
 
 namespace LevelLoaderScripts
@@ -32,12 +31,12 @@ namespace LevelLoaderScripts
 
         public string[] AssetsKey => _config.MinesConfig.GetLevelInformation(SessionMineId).AssetKeys;
         
-        public MineData MineData()
+        public MineData SessionMineData()
         {
             return _dataManager.Get<MinesData>().GetMineData(SessionMineId);
         }
 
-        public async UniTask UpdateMineId(string mineId)
+        public async UniTask UpdateSessionMineId(string mineId)
         {
             _dataManager.Get<PlayerData>().MineId = mineId;
             await _dataManager.SaveAllAsync();

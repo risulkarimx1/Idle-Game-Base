@@ -43,7 +43,7 @@ namespace GameCode.Mines
 
         private async void OnMineSelected(string mineId)
         {
-            await _sessionProvider.UpdateMineId(mineId);
+            await _sessionProvider.UpdateSessionMineId(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}");
             await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);

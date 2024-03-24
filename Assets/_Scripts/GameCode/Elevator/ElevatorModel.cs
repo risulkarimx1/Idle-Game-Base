@@ -40,7 +40,7 @@ namespace GameCode.Elevator
 
         private int GetElevatorLevel()
         {
-            var elevatorLevel = _gameSessionProvider.MineData().ElevatorLevel;
+            var elevatorLevel = _gameSessionProvider.SessionMineData().ElevatorLevel;
             return elevatorLevel;
         }
 

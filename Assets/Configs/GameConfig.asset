@@ -12,15 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399d431b5f13a584da186e72a4c108ac, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  _mineshaftConfig: {fileID: 11400000, guid: 5539b827b23a6964999cb4e52b988340, type: 2}
-  _mineshaftWorkerConfig: {fileID: 11400000, guid: 15f2906efcac83b47805f8f29f42e8cb,
+  <ActorUpgradePriceIncrement>k__BackingField: 1.12
+  <ActorUpgradeSkillIncrement>k__BackingField: 1.1
+  <ActorPriceIncrementPerShaft>k__BackingField: 6
+  <ActorSkillIncrementPerShaft>k__BackingField: 3
+  <StartingMoney>k__BackingField: 500
+  <MineshaftConfig>k__BackingField: {fileID: 11400000, guid: 5539b827b23a6964999cb4e52b988340,
     type: 2}
-  _elevatorWorkerConfig: {fileID: 11400000, guid: 1501df7a4cf87b943aa0af42217f84d1,
+  <MineshaftWorkerConfig>k__BackingField: {fileID: 11400000, guid: 15f2906efcac83b47805f8f29f42e8cb,
     type: 2}
-  _warehouseWorkerConfig: {fileID: 11400000, guid: 54ec3ae534d84ae4fa71c4435fa8383e,
+  <ElevatorWorkerConfig>k__BackingField: {fileID: 11400000, guid: 1501df7a4cf87b943aa0af42217f84d1,
     type: 2}
-  _minesConfig: {fileID: 11400000, guid: d27692a3a7c0146198c2e10214b3145b, type: 2}
-  ActorUpgradePriceIncrement: 1.12
-  ActorUpgradeSkillIncrement: 1.1
-  ActorPriceIncrementPerShaft: 6
-  ActorSkillIncrementPerShaft: 3
+  <WarehouseWorkerConfig>k__BackingField: {fileID: 11400000, guid: 54ec3ae534d84ae4fa71c4435fa8383e,
+    type: 2}
+  <MinesConfig>k__BackingField: {fileID: 11400000, guid: d27692a3a7c0146198c2e10214b3145b,
+    type: 2}

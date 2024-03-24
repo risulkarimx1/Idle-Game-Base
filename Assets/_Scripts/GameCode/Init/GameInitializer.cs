@@ -1,4 +1,5 @@
 ﻿using System;
+using GameCode.Finance;
 using GameCode.Mineshaft;
 using GameCode.Persistence;
 using GameCode.Utils;
@@ -19,31 +20,38 @@ namespace GameCode.Init
         [Inject] private DataManager _dataManager;
         [Inject] private GameConfig _config;
         [Inject] private GameSessionProvider _gameSessionProvider;
+        [Inject] private FinanceModel _financeModel;
 
         public void OnAllInitFinished()
         {
             var mineId = _gameSessionProvider.SessionMineId;
             var minesData = _dataManager.Get<MinesData>();
             
+            SetupMineShafts(minesData, mineId);
+
+            SetupFinanceModel();
+        }
+
+        private void SetupFinanceModel()
+        {
+            var money = Math.Max(_config.StartingMoney, _dataManager.Get<PlayerData>().Money);
+            _financeModel.AddResource(money);
+            _financeModel.Money.Subscribe(value =>
+            {
+                _dataManager.Get<PlayerData>().Money = value;
+            }).AddTo(_disposable);
+        }
+
+        private void SetupMineShafts(MinesData minesData, string mineId)
+        {
             var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             var mineShaftPosition = _mineshaftStartingPosition.position;
             
             foreach (var mineShaftLevel in mineShaftLevels)
             {
-               var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
-               mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
+                var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
+                mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
             }
-        }
-
-        private string GetCurrentMineId(PlayerData playerData)
-        {
-            var mineId = string.Empty;
-            if (!string.IsNullOrEmpty(playerData.MineId)) return mineId;
-            
-            mineId = _config.MinesConfig.DefaultMineInformation.MineId;
-            playerData.MineId = mineId;
-
-            return mineId;
         }
 
         public async void Dispose()

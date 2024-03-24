@@ -6,15 +6,15 @@ namespace GameCode.Persistence
     [DataIdentifier("payer_data")]
     public class PlayerData: BaseData
     {
-        [JsonProperty("player_cash")] private int _playerCash;
+        [JsonProperty("player_money")] private double _money;
         [JsonProperty("selected_mine")] private string _mineId;
 
-        public int PlayerCash
+        public double Money
         {
-            get => _playerCash;
+            get => _money;
             set
             {
-                _playerCash = value;
+                _money = value;
                 SetDirty();
             }
         }

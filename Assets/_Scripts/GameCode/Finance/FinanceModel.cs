@@ -1,5 +1,10 @@
-﻿using UniRx;
+﻿using GameCode.Persistence;
+using LevelLoaderScripts;
+using Services.DataFramework;
+using Services.GameInitFramework;
+using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace GameCode.Finance
 {
@@ -18,10 +23,11 @@ namespace GameCode.Finance
         public IReactiveProperty<double> EarnedMoney => _earnedMoney;
 
         private readonly IReactiveProperty<double> _earnedMoney;
-
+        [Inject] private GameSessionProvider _gameSessionProvider;
+        
         public FinanceModel()
         {
-            _money = new ReactiveProperty<double>(500);
+            _money = new ReactiveProperty<double>(0);
             _earnedMoney = new ReactiveProperty<double>(_money.Value);
         }
 

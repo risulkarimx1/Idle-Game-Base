@@ -21,7 +21,7 @@ namespace GameCode.Mineshaft
         public void OnAllInitFinished()
         {
             var mineId = _sessionProvider.SessionMineId;
-            _mineData = _sessionProvider.MineData();
+            _mineData = _sessionProvider.SessionMineData();
             
             _signalBus.GetStream<GameSignals.MineshaftCreatedSignal>().Subscribe(OnMineShaftCreated).AddTo(_disposable);
 

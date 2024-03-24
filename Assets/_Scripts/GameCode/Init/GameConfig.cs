@@ -1,6 +1,7 @@
 ﻿using GameCode.Mines;
 using GameCode.Mineshaft;
 using GameCode.Worker;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace GameCode.Init
@@ -8,23 +9,17 @@ namespace GameCode.Init
     [CreateAssetMenu(menuName = "Game Config")]
     public class GameConfig : ScriptableObject
     {
-        [SerializeField] private MineshaftConfig _mineshaftConfig;
-        [SerializeField] private WorkerConfig _mineshaftWorkerConfig;
-        [SerializeField] private WorkerConfig _elevatorWorkerConfig;
-        [SerializeField] private WorkerConfig _warehouseWorkerConfig;
-        [SerializeField] private MinesConfig _minesConfig;
+        [BoxGroup("Constants")] [field: SerializeField] public float ActorUpgradePriceIncrement { get; private set; }
+        [BoxGroup("Constants")] [field: SerializeField] public float ActorUpgradeSkillIncrement { get; private set; }
 
-        public float ActorUpgradePriceIncrement;
-        public float ActorUpgradeSkillIncrement;
-
-        public float ActorPriceIncrementPerShaft;
-        public float ActorSkillIncrementPerShaft;
-
-        public IMineshaftConfig MineshaftConfig => _mineshaftConfig;
-        public IWorkerConfig MineshaftWorkerConfig => _mineshaftWorkerConfig;
-        public IWorkerConfig ElevatorWorkerConfig => _elevatorWorkerConfig;
-        public IWorkerConfig WarehouseWorkerConfig => _warehouseWorkerConfig;
-
-        public MinesConfig MinesConfig => _minesConfig;
+        [BoxGroup("Constants")] [field: SerializeField] public float ActorPriceIncrementPerShaft { get; private set; }
+        [BoxGroup("Constants")] [field: SerializeField] public float ActorSkillIncrementPerShaft { get; private set; }
+        [BoxGroup("Constants")] [field: SerializeField] public int StartingMoney { get; private set; }
+        
+        [BoxGroup("Configs")] [field: SerializeField] public MineshaftConfig MineshaftConfig { get; private set; }
+        [BoxGroup("Configs")] [field: SerializeField] public WorkerConfig MineshaftWorkerConfig{ get; private set; }
+        [BoxGroup("Configs")] [field: SerializeField] public WorkerConfig ElevatorWorkerConfig{ get; private set; }
+        [BoxGroup("Configs")] [field: SerializeField] public WorkerConfig WarehouseWorkerConfig { get; private set; }
+        [BoxGroup("Configs")] [field: SerializeField] public MinesConfig MinesConfig{ get; private set; }
     }
 }
