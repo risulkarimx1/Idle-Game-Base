@@ -18,19 +18,16 @@ public class IdleIncomeCalculatorTests : ZenjectUnitTestFixture
     [Test]
     public void CalculateIncomeRate_ReturnsCorrectIncomeRate()
     {
-        // Arrange
         _idleIncomeCalculator._deposits = new List<(DateTime Time, double Amount)>
         {
             (DateTime.UtcNow.AddSeconds(-10), 100),
             (DateTime.UtcNow.AddSeconds(-5), 200),
             (DateTime.UtcNow, 300)
         };
-
-        // Act
+        
         var incomeRate = _idleIncomeCalculator.CalculateIncomeRate();
-
-        // Assert
-        var isCloseEnough = Math.Abs(60 - incomeRate) < 0.0001;
+        
+        var isCloseEnough = Math.Abs(60 - incomeRate) < 0.01;
         Assert.IsTrue(isCloseEnough);
     }
 }

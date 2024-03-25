@@ -10,7 +10,7 @@ namespace GameCode.Persistence
     public class GameSessionData: BaseData
     {
         [JsonProperty("session_logoff_time")]
-        public Dictionary<string, DateTime> _sessionLogOffTimes = new();
+        private Dictionary<string, DateTime> _sessionLogOffTimes = new();
 
         [JsonProperty("session_mine")] private string _mineId;
 
