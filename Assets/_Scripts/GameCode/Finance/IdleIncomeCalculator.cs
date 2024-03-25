@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using GameCode.Persistence;
 using GameCode.Signals;
 using GameCode.TimeProvider;
@@ -11,9 +12,11 @@ using Services.LogFramework;
 using UniRx;
 using Zenject;
 
+[assembly: InternalsVisibleTo("Assembly-CSharp-Editor")]
+
 namespace GameCode.Finance
 {
-    public class DepositRateCalculator : IInitializableAfterAll
+    public class IdleIncomeCalculator : IInitializableAfterAll
     {
         [Inject] private readonly CompositeDisposable _disposables;
         [Inject] private ITimeProvider _timeProvider;
@@ -21,9 +24,9 @@ namespace GameCode.Finance
         [Inject] private IGameSessionProvider _sessionProvider;
         [Inject] private SignalBus _signalBus;
 
-        private readonly List<(DateTime Time, double Amount)> _deposits = new();
+        internal List<(DateTime Time, double Amount)> _deposits = new();
         private const int SampleSize = 3;
-        
+
         public void OnAllInitFinished()
         {
             var financeData = _dataManager.Get<FinanceData>();
@@ -32,20 +35,22 @@ namespace GameCode.Finance
             {
                 var now = _timeProvider.UtcNow;
                 _deposits.Add((now, s.Amount));
-                    
+
                 if (_deposits.Count < SampleSize) return;
-                    
+
                 var currentIncomeRate = financeData.GetDepositRate(mineId);
                 var newIncomeRate = CalculateIncomeRate();
                 var incomeRate = Math.Max(currentIncomeRate, newIncomeRate);
-                Debug.Log($"{mineId}: NewIncomeRate {newIncomeRate}. Current Income Rate: {currentIncomeRate}. Income rate updated to {incomeRate}", LogContext.FinanceModel);
-                    
+                Debug.Log(
+                    $"{mineId}: NewIncomeRate {newIncomeRate}. Current Income Rate: {currentIncomeRate}. Income rate updated to {incomeRate}",
+                    LogContext.FinanceModel);
+
                 financeData.SetDepositRate(mineId, incomeRate);
                 _deposits.Clear();
             }).AddTo(_disposables);
         }
 
-        private double CalculateIncomeRate()
+        internal double CalculateIncomeRate()
         {
             var totalIncome = _deposits.Sum(d => d.Amount);
             var firstIncomeTime = _deposits[0].Time;

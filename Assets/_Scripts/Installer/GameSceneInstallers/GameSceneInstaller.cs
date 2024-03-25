@@ -43,7 +43,7 @@ namespace Installer.GameSceneInstallers
             Container.BindInterfacesAndSelfTo<CameraController>().AsSingle().NonLazy();
             
             // finance 
-            Container.BindInterfacesAndSelfTo<DepositRateCalculator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<IdleIncomeCalculator>().AsSingle();
             Container.BindInterfacesAndSelfTo<FinanceModel>().AsSingle();
             
             // Hud
