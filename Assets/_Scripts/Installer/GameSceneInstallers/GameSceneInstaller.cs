@@ -7,8 +7,8 @@ using GameCode.Mineshaft;
 using GameCode.Signals;
 using GameCode.Tutorial;
 using GameCode.UI;
-using GameCode.Utils;
 using GameCode.Warehouse;
+using Services.Utils;
 using Sirenix.OdinInspector;
 using UniRx;
 using UnityEngine;
@@ -37,7 +37,7 @@ namespace Installer.GameSceneInstallers
             Container.Bind<WarehouseView>().FromComponentInNewPrefab(warehouseViewPrefab).AsSingle();
             Container.Bind<ElevatorView>().FromComponentInNewPrefab(elevatorViewPrefab).AsSingle();
             Container.Bind<GameConfig>().FromInstance(gameConfig).AsSingle();
-            Container.Bind<Transform>().WithId(GameConstants.FirtMinePositionObjectTag).FromInstance(firstMineshaftPosition).AsSingle();
+            Container.Bind<Transform>().WithId(GameConstants.FirstMinePositionObjectTag).FromInstance(firstMineshaftPosition).AsSingle();
 
             Container.BindInterfacesAndSelfTo<TutorialModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<CameraController>().AsSingle().NonLazy();

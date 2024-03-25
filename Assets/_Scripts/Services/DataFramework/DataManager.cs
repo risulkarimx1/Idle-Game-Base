@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
-using GameCode.Utils;
 using Services.GameInitFramework;
 using UniRx;
 using Zenject;
@@ -77,7 +76,7 @@ namespace Services.DataFramework
         private UniTask<T> LoadAsync<T>() where T : BaseData, new()
         {
             var fileName = GetIdentifier(typeof(T));
-            return _dataHandler.LoadAsync<T>(fileName, GameConfig.DataKey);
+            return _dataHandler.LoadAsync<T>(fileName, GameConfig.GetInstance().DataKey);
         }
 
         private async UniTask InitializeDataType<T>() where T : BaseData, new()
@@ -114,7 +113,7 @@ namespace Services.DataFramework
                 return identifier;
 
             var attribute = t.GetCustomAttribute<DataIdentifierAttribute>()?.Identifier ?? t.Name;
-            var dataIdentifier = $"{attribute}_v{GameConfig.DataKey}.json";
+            var dataIdentifier = $"{attribute}_v{GameConfig.GetInstance().DataKey}.json";
             _typeToFileNameMatch.Add(t, dataIdentifier);
 
             return _typeToFileNameMatch[t];

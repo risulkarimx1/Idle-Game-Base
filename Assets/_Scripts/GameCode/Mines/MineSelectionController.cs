@@ -6,7 +6,6 @@ using Services.LogFramework;
 using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 using Debug = Services.LogFramework.Debug;
 
@@ -42,8 +41,8 @@ namespace GameCode.Mines
                 var mineInfoItemView = GameObject.Instantiate(_mineSelectionView.MineInfoItemViewPrefab,
                     _mineSelectionView.ContentParent);
                 var isCurrentMine = _sessionProvider.GetSession().MineId == mine.Key;
-                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected,
-                    isCurrentMine);
+                mineInfoItemView.Configure(mine.Key, mine.Value.MineName, mine.Value.MineDescription, isCurrentMine,
+                    OnMineSelected);
             }
 
             await UniTask.Yield();
@@ -56,15 +55,17 @@ namespace GameCode.Mines
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}", LogContext.LevelConfig);
             _cts?.Cancel();
-            await _sceneFlowService.SwitchScene(GameConfig.SessionLoaderScene, true);
+            await _sceneFlowService.SwitchScene(GameConfig.GetInstance().SessionLoaderScene, true);
         }
 
         private async UniTask ConfigureBackButtons()
         {
             _cts?.Cancel();
             _cts = new CancellationTokenSource();
-            var backButtonTask = _mineSelectionView.BackdropButton.OnClickAsObservable().First().ToUniTask(cancellationToken: _cts.Token);
-            var closeButtonTask = _mineSelectionView.CloseButton.OnClickAsObservable().First().ToUniTask(cancellationToken: _cts.Token);
+            var backButtonTask = _mineSelectionView.BackdropButton.OnClickAsObservable().First()
+                .ToUniTask(cancellationToken: _cts.Token);
+            var closeButtonTask = _mineSelectionView.CloseButton.OnClickAsObservable().First()
+                .ToUniTask(cancellationToken: _cts.Token);
             await UniTask.WhenAny(new[] { backButtonTask, closeButtonTask });
             await _mineSelectionView.HideMineSelectionUiFlow();
         }

@@ -13,8 +13,8 @@ namespace _Scripts.EditorUtil.Editor
         [MenuItem("Tools/Clear Data")]
         public static void ClearData()
         {
-            var path = Path.Combine(Application.persistentDataPath, GameConfig.DataKey);
-            
+            var path = Path.Combine(Application.persistentDataPath, GameConfig.GetInstance().DataKey);
+
             if (Directory.Exists(path))
             {
                 Directory.Delete(path, true);

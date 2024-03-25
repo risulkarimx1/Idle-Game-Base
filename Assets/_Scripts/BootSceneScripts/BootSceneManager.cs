@@ -7,16 +7,17 @@ using Zenject;
 
 namespace BootSceneScripts
 {
-    public class BootSceneRelay: IInitializableAfterAll
+    
+    public class BootSceneManager : IInitializableAfterAll
     {
         [Inject] private SceneFlowService _sceneFlowService;
         [Inject] private LoadingController _loadingController;
 
         public async void OnAllInitFinished()
         {
-            Debug.Log($"Game Initialized at {nameof(BootSceneRelay)}", LogContext.SceneFlow);
-            await _loadingController.Appear();  
-            await _sceneFlowService.SwitchScene(GameConfig.SessionLoaderScene, false);
+            Debug.Log($"Game Initialized at {nameof(BootSceneManager)}", LogContext.SceneFlow);
+            await _loadingController.Appear();
+            await _sceneFlowService.SwitchScene(GameConfig.GetInstance().SessionLoaderScene, false);
             await _loadingController.Hide();
         }
     }

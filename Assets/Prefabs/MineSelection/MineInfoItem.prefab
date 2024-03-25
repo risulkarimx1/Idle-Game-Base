@@ -426,9 +426,9 @@ MonoBehaviour:
   mineDescriptionText: {fileID: 6552974501183105011}
   goButton: {fileID: 6552974500275824076}
   goButtonAnimated: {fileID: 6552974501197707378}
-  _disableColor: {r: 1, g: 0.34097308, b: 0, a: 1}
-  _enableColor: {r: 0.003921569, g: 0.9176471, b: 0.41176474, a: 1}
-  _goButtonImage: {fileID: 6552974501197707379}
+  disableColor: {r: 0.8867924, g: 0.35761547, b: 0.04601282, a: 1}
+  enableColor: {r: 0.003921569, g: 0.9176471, b: 0.41176474, a: 1}
+  goButtonImage: {fileID: 6552974501197707379}
 --- !u!1 &6552974501127567830
 GameObject:
   m_ObjectHideFlags: 0

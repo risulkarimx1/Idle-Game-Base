@@ -8,13 +8,6 @@ using Debug = Services.LogFramework.Debug;
 
 namespace Services.DataFramework
 {
-    public abstract class BaseDataHandler
-    {
-        protected string IV { get; set; }
-        protected string Key { get; set; }
-
-    }
-    
     public class JsonFileDataHandler : BaseDataHandler, IDataHandler
     {
         private readonly IEncryptionService _encryptionService;
@@ -23,10 +16,10 @@ namespace Services.DataFramework
 
         public JsonFileDataHandler(IEncryptionService service)
         {
-            IV = GameConfig.DataInitVector;
-            Key = GameConfig.DataKey;
+            IV = GameConfig.GetInstance().DataInitVector;
+            Key = GameConfig.GetInstance().DataKey;
             
-            _directoryPath = Path.Combine(Application.persistentDataPath, GameConfig.DataKey);
+            _directoryPath = Path.Combine(Application.persistentDataPath, GameConfig.GetInstance().DataKey);
             _encryptionService = service;
             IsDirty = false;
             if (!Directory.Exists(_directoryPath))

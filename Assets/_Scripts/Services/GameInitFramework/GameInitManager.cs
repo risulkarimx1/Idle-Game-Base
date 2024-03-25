@@ -3,14 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
-using GameCode.Init;
 using Services.DataFramework;
-using UniRx;
 using Zenject;
 
 namespace Services.GameInitFramework
 {
-    public class GameInitManager: IInitializable
+    public class GameInitManager: IInitializable, IDisposable
     {
         private DiContainer _container;
         private IRequireInit[] _initSources;

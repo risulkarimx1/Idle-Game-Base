@@ -12,17 +12,16 @@ namespace Services.SceneFlowServices
 {
     public class SceneFlowService
     {
-        
         public string CurrentScene { get; set; }
-        
+
         private Dictionary<string, List<AsyncOperationHandle<GameObject>>> _sceneAssetHandles = new();
 
 
-        public async UniTask SwitchScene(string sceneName, bool unloadCurrentScene = true, string [] assetKeys = null)
+        public async UniTask SwitchScene(string sceneName, bool unloadCurrentScene = true, string[] assetKeys = null)
         {
             Debug.Log($"Loading new scene: {sceneName}", LogContext.SceneFlow);
-            
-            if (unloadCurrentScene && CurrentScene != GameConfig.BootScene)
+
+            if (unloadCurrentScene && CurrentScene != GameConfig.GetInstance().BootScene)
             {
                 await UnloadSceneAssets(CurrentScene);
                 await SceneManager.UnloadSceneAsync(CurrentScene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
@@ -32,7 +31,7 @@ namespace Services.SceneFlowServices
             CurrentScene = sceneName;
 
             if (assetKeys == null) return;
-            
+
             await LoadAddressables(assetKeys);
         }
 
@@ -46,6 +45,7 @@ namespace Services.SceneFlowServices
                     Addressables.Release(handle);
                     await UniTask.Yield();
                 }
+
                 _sceneAssetHandles.Remove(currentScene);
             }
         }
@@ -63,7 +63,7 @@ namespace Services.SceneFlowServices
             {
                 _sceneAssetHandles[CurrentScene] = new List<AsyncOperationHandle<GameObject>>();
             }
-            
+
             foreach (var key in assetKeys)
             {
                 var handle = Addressables.LoadAssetAsync<GameObject>(key);

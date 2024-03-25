@@ -19,7 +19,7 @@ namespace GameSessionLoaderScripts
             Debug.Log($"All components loaded at {nameof(GameSessionLoader)}", LogContext.SceneFlow);
             var levelsAssets = _gameSessionProvider.GetSession().AssetsKey;
             await _loadingController.Appear();
-            await _sceneFlowService.SwitchScene(GameConfig.GameScene, true, levelsAssets);
+            await _sceneFlowService.SwitchScene(GameConfig.GetInstance().GameScene, true, levelsAssets);
             await _loadingController.Hide();
         }
     }

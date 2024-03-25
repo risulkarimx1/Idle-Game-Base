@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GameCode.Utils
+namespace Services.Utils
 {
     public static class DictionaryUtils
     {

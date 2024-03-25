@@ -14,33 +14,33 @@ namespace GameCode.Mines
         [SerializeField] private TextMeshProUGUI mineDescriptionText;
         [SerializeField] private Button goButton;
         [SerializeField] private RectTransform goButtonAnimated;
-        [SerializeField] private Color _disableColor;
-        [SerializeField] private Color _enableColor;
-        [SerializeField] private Image _goButtonImage;
+        [SerializeField] private Color disableColor;
+        [SerializeField] private Color enableColor;
+        [SerializeField] private Image goButtonImage;
         
-        private string _mineId;
-        private Action<string> _clickEvent;
-        
-
-        public void SetMineInfo(string mineId, string mineName, string mineDescription, Action<string> clickEvent, bool isCurrentMine)
+        public void Configure(string mineId, string mineName, string mineDescription, bool isCurrentMine, Action<string> mineSelected)
         {
-            _mineId = mineId;
-            _clickEvent = clickEvent;
             mineNameText.text = mineName;
             mineDescriptionText.text = mineDescription;
 
             if (isCurrentMine)
             {
                 goButton.interactable = false;
-                _goButtonImage.color = _disableColor;
+                goButtonImage.color = disableColor;
             }
             else
             {
-                _goButtonImage.color = _enableColor;
+                goButtonImage.color = enableColor;
+                goButton.interactable = true;
+                
                 goButton.OnPointerDownAsObservable().Subscribe(_ =>
                     goButtonAnimated.DOAnchorPosY(0, 0.1f).SetEase(Ease.Linear)).AddTo(this);
-            
-                goButton.OnPointerUpAsObservable().Subscribe(_ => _clickEvent?.Invoke(_mineId)).AddTo(this);   
+                
+                goButton.OnPointerUpAsObservable().Subscribe(_ =>
+                {
+                    mineSelected?.Invoke(mineId);
+                    goButton.interactable = false;
+                }).AddTo(this);   
             }
         }
     }

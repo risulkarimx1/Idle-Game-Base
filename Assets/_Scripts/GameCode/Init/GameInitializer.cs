@@ -4,10 +4,10 @@ using GameCode.Mineshaft;
 using GameCode.Persistence;
 using GameCode.TimeProvider;
 using GameCode.UI;
-using GameCode.Utils;
 using LevelLoaderScripts;
 using Services.DataFramework;
 using Services.GameInitFramework;
+using Services.Utils;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -16,7 +16,7 @@ namespace GameCode.Init
 {
     public class GameInitializer : IInitializableAfterAll, IDisposable
     {
-        [Inject(Id = GameConstants.FirtMinePositionObjectTag)]
+        [Inject(Id = GameConstants.FirstMinePositionObjectTag)]
         private Transform _mineshaftStartingPosition;
 
         [Inject] private CompositeDisposable _disposable;

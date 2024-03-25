@@ -17,6 +17,7 @@ namespace Services.GameInitFramework
         public void OnAllInitFinished();
     }
     
+    // Example to extend this
     public interface IInitializableAfterData : IInitializableAfter<DataManager>
     {
     }
