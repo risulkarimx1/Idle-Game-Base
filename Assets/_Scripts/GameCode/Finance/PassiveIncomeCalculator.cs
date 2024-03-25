@@ -16,7 +16,7 @@ using Zenject;
 
 namespace GameCode.Finance
 {
-    public class IdleIncomeCalculator : IInitializableAfterAll
+    public class PassiveIncomeCalculator : IInitializableAfterAll
     {
         [Inject] private readonly CompositeDisposable _disposables;
         [Inject] private ITimeProvider _timeProvider;

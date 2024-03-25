@@ -22,7 +22,8 @@ namespace GameCode.Init
         [field: BoxGroup("Scene Names")]
         [field: SerializeField] public string SessionLoaderScene { get; private set; } = "SessionLoaderScene";
         
-        [field: BoxGroup("Game Settings")] [field: SerializeField] public bool EnablePassiveIncome { get; private set; }
+        [field: BoxGroup("Passive Income")] [field: SerializeField] public bool EnablePassiveIncome { get; private set; }
+        [field: BoxGroup("Passive Income")] [field: SerializeField] public double MaximumPassiveIncome { get; private set; } = 100000;
         [field: BoxGroup("Game Settings")] [field: SerializeField] public float ActorUpgradePriceIncrement { get; private set; }
         [field: BoxGroup("Game Settings")] [field: SerializeField] public float ActorUpgradeSkillIncrement { get; private set; }
 

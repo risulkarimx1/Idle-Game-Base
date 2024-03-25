@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
-using Services.DataFramework;
 using Zenject;
 
 namespace Services.GameInitFramework
@@ -77,7 +76,7 @@ namespace Services.GameInitFramework
                 return;
             await UniTask.Yield();
             var interfaceType = typeof(IInitializableAfter<>).MakeGenericType(source.GetType());
-            var methodName = nameof(IInitializableAfter<DataManager>.OnInitFinishedFor);
+            var methodName = nameof(IInitializableAfter<IRequireInit>.OnInitFinishedFor);// Taking data Manager as an example
             var method = interfaceType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public)!;
             foreach (var initializable in initializables)
                 if (interfaceType.IsInstanceOfType(initializable))

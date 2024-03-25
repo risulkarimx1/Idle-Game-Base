@@ -17,7 +17,7 @@ namespace Services.LoadingScreen
 
         public async UniTask Appear()
         {
-            _loadingView.gameObject.SetActive(true);  
+            _loadingView.gameObject.SetActive(true);
             await _loadingView.Appear();
         }
         public async UniTask Hide()

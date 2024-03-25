@@ -327,3 +327,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Background>k__BackingField: {fileID: 1215147356435868009}
+  <LoadingText>k__BackingField: {fileID: 4753522148305309804}

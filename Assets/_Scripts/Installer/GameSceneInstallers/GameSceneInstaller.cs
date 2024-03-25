@@ -43,7 +43,7 @@ namespace Installer.GameSceneInstallers
             Container.BindInterfacesAndSelfTo<CameraController>().AsSingle().NonLazy();
             
             // finance 
-            Container.BindInterfacesAndSelfTo<IdleIncomeCalculator>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PassiveIncomeCalculator>().AsSingle();
             Container.BindInterfacesAndSelfTo<FinanceModel>().AsSingle();
             
             // Hud
@@ -65,8 +65,10 @@ namespace Installer.GameSceneInstallers
             Container.Bind<MineSelectionView>().FromComponentInNewPrefab(mineSelectionViewPrefab).AsSingle();
             Container.BindInterfacesAndSelfTo<MineSelectionController>().AsSingle();
             
-            // Initiate Game Data Services
+            // Game Initializers
             Container.BindInterfacesAndSelfTo<MineProgressionService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<FinanceInitializer>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MineShaftInitializer>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameInitializer>().AsSingle().NonLazy();
         }
 
