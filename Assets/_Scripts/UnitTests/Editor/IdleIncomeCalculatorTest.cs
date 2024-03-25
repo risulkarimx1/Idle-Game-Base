@@ -24,9 +24,9 @@ public class IdleIncomeCalculatorTests : ZenjectUnitTestFixture
             (DateTime.UtcNow.AddSeconds(-5), 200),
             (DateTime.UtcNow, 300)
         };
-        
+
         var incomeRate = _idleIncomeCalculator.CalculateIncomeRate();
-        
+
         var isCloseEnough = Math.Abs(60 - incomeRate) < 0.01;
         Assert.IsTrue(isCloseEnough);
     }

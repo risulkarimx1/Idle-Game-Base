@@ -23,14 +23,7 @@ namespace GameCode.Persistence
 
         public void SetDepositRate(string mineId, double depositRate)
         {
-            if (_depositRates.ContainsKey(mineId) == false)
-            {
-                _depositRates.Add(mineId, depositRate);
-            }
-            else
-            {
-                _depositRates[mineId] = depositRate;
-            }
+            _depositRates[mineId] = depositRate;
             SetDirty();
         }
 

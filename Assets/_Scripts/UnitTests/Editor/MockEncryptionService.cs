@@ -5,7 +5,6 @@ namespace _Scripts.UnitTests.Editor
 {
     public class MockEncryptionService: IEncryptionService
     {
-
         public UniTask<string> EncryptStringAsync(string plainText)
         {
             return UniTask.FromResult(plainText);
