@@ -1,6 +1,6 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
-using GameCode.Utils;
 using LevelLoaderScripts;
 using Services.LogFramework;
 using Services.SceneFlowServices;
@@ -19,13 +19,13 @@ namespace GameCode.Mines
         [Inject] private SceneFlowService _sceneFlowService;
         [Inject] private IGameSessionProvider _sessionProvider;
         [Inject] private IGameSessionUpdater _gameSessionUpdater;
-        [Inject] private CompositeDisposable _disposable;
-        
+        private CancellationTokenSource _cts;
+
         public async UniTask ShowAsync()
         {
             await PrepareItemsAsync();
             await _mineSelectionView.ShowMineSelectionUiFlowAsync();
-            ConfigureBackButtons();
+            await ConfigureBackButtons();
         }
 
         private async UniTask PrepareItemsAsync()
@@ -39,9 +39,11 @@ namespace GameCode.Mines
             await UniTask.Yield();
             foreach (var mine in _config.MinesConfig.MinesInformation)
             {
-                var mineInfoItemView = GameObject.Instantiate(_mineSelectionView.MineInfoItemViewPrefab, _mineSelectionView.ContentParent);
+                var mineInfoItemView = GameObject.Instantiate(_mineSelectionView.MineInfoItemViewPrefab,
+                    _mineSelectionView.ContentParent);
                 var isCurrentMine = _sessionProvider.GetSession().MineId == mine.Key;
-                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected, isCurrentMine);
+                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected,
+                    isCurrentMine);
             }
 
             await UniTask.Yield();
@@ -49,25 +51,22 @@ namespace GameCode.Mines
 
         private async void OnMineSelected(string mineId)
         {
-            if(_sessionProvider.GetSession().MineId == mineId) return;
+            if (_sessionProvider.GetSession().MineId == mineId) return;
             await _gameSessionUpdater.UpdateSession(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}", LogContext.LevelConfig);
+            _cts?.Cancel();
             await _sceneFlowService.SwitchScene(GameConfig.SessionLoaderScene, true);
         }
-        
-        private void ConfigureBackButtons()
-        {
-            ConfigureButton(_mineSelectionView.BackdropButton);
-            ConfigureButton(_mineSelectionView.CloseButton);
-        }
 
-        private void ConfigureButton(Button button)
+        private async UniTask ConfigureBackButtons()
         {
-            button.OnClickAsObservable().Subscribe(async _ =>
-            {
-                await _mineSelectionView.HideMineSelectionUiFlow();
-            }).AddTo(_disposable);
+            _cts?.Cancel();
+            _cts = new CancellationTokenSource();
+            var backButtonTask = _mineSelectionView.BackdropButton.OnClickAsObservable().First().ToUniTask(cancellationToken: _cts.Token);
+            var closeButtonTask = _mineSelectionView.CloseButton.OnClickAsObservable().First().ToUniTask(cancellationToken: _cts.Token);
+            await UniTask.WhenAny(new[] { backButtonTask, closeButtonTask });
+            await _mineSelectionView.HideMineSelectionUiFlow();
         }
     }
 }

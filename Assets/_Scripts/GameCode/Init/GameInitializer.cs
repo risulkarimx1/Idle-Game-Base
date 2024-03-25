@@ -16,9 +16,9 @@ namespace GameCode.Init
 {
     public class GameInitializer : IInitializableAfterAll, IDisposable
     {
-        [Inject(Id = GameConstants.FirtMinePositionObjectTag)] 
+        [Inject(Id = GameConstants.FirtMinePositionObjectTag)]
         private Transform _mineshaftStartingPosition;
-        
+
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private IDataManager _dataManager;
@@ -35,42 +35,42 @@ namespace GameCode.Init
             SetupPassiveIncome();
         }
 
-        private void SetupPassiveIncome()
-        {
-            if(_config.EnablePassiveIncome == false) return;
-            var mineId = _gameSessionProvider.GetSession().MineId;
-            var incomeRate = _dataManager.Get<FinanceData>().GetDepositRate(mineId);
-            var logOffTime = _dataManager.Get<GameSessionData>().GetLogOffTime(mineId, _timeProvider);
-            var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
-            var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
-            if(totalPassiveIncome <= 0) return;
-            _financeModel.AddResource(totalPassiveIncome, true);
-            _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
-        }
-
-        private void SetupFinanceModel()
-        {
-            var money = Math.Max(_config.StartingMoney, _dataManager.Get<FinanceData>().Money);
-            _financeModel.AddResource(money, true);
-            _financeModel.Money.Subscribe(value =>
-            {
-                _dataManager.Get<FinanceData>().Money = value;
-            }).AddTo(_disposable);
-        }
-
         private void SetupMineShafts()
         {
             var mineId = _gameSessionProvider.GetSession().MineId;
             var minesData = _dataManager.Get<MinesData>();
             var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             var mineShaftPosition = _mineshaftStartingPosition.position;
-            
+
             foreach (var mineShaftLevel in mineShaftLevels)
             {
-                var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value, mineShaftPosition);
+                var controller = _mineshaftFactory.CreateMineshaft(mineId, mineShaftLevel.Key, mineShaftLevel.Value,
+                    mineShaftPosition);
                 mineShaftPosition = controller.View.NextShaftView.NextShaftPosition;
             }
         }
+
+        private void SetupFinanceModel()
+        {
+            var money = _dataManager.Get<FinanceData>().Money;
+            _financeModel.AddResource(money, true);
+            _financeModel.Money.Subscribe(value => { _dataManager.Get<FinanceData>().Money = value; })
+                .AddTo(_disposable);
+        }
+
+        private void SetupPassiveIncome()
+        {
+            if (_config.EnablePassiveIncome == false) return;
+            var mineId = _gameSessionProvider.GetSession().MineId;
+            var incomeRate = _dataManager.Get<FinanceData>().GetDepositRate(mineId);
+            var logOffTime = _dataManager.Get<GameSessionData>().GetLogOffTime(mineId, _timeProvider);
+            var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
+            var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
+            if (totalPassiveIncome <= 0) return;
+            _financeModel.AddResource(totalPassiveIncome, true);
+            _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
+        }
+
 
         public async void Dispose()
         {
