@@ -7,9 +7,9 @@ using Services.GameInitFramework;
 using UniRx;
 using Zenject;
 
-namespace GameCode.Mineshaft
+namespace GameCode.Mines
 {
-    public class MineDataService : IInitializableAfterAll
+    public class MineProgressionService : IInitializableAfterAll
     {
         [Inject] private SignalBus _signalBus;
         [Inject] private CompositeDisposable _disposable;

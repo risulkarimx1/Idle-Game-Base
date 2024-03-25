@@ -66,7 +66,7 @@ namespace Installer.GameSceneInstallers
             Container.BindInterfacesAndSelfTo<MineSelectionController>().AsSingle();
             
             // Initiate Game Data Services
-            Container.BindInterfacesAndSelfTo<MineDataService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<MineProgressionService>().AsSingle().NonLazy();
             Container.BindInterfacesAndSelfTo<GameInitializer>().AsSingle().NonLazy();
         }
 

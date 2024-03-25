@@ -1,10 +1,9 @@
 using System;
 using System.IO;
-using Services.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace Services.Singletons
+namespace Services.Utils
 {
     public abstract class SingletonScriptable<T> : ScriptableObject where T : ScriptableObject
     {

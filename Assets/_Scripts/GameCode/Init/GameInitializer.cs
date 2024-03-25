@@ -71,7 +71,6 @@ namespace GameCode.Init
             _hudController.ShowPassiveIncomeTooltip($"+{(int)totalPassiveIncome}");
         }
 
-
         public async void Dispose()
         {
             await _dataManager.SaveAllAsync();

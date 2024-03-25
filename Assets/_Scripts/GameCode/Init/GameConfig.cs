@@ -1,7 +1,7 @@
 ﻿using GameCode.Mines;
 using GameCode.Mineshaft;
 using GameCode.Worker;
-using Services.Singletons;
+using Services.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
