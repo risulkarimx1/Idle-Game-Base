@@ -16,7 +16,8 @@ namespace GameCode.Mines
         [Inject] private MineSelectionView _mineSelectionView;
         [Inject] private GameConfig _config;
         [Inject] private SceneFlowService _sceneFlowService;
-        [Inject] private GameSessionProvider _sessionProvider;
+        [Inject] private IGameSessionProvider _sessionProvider;
+        [Inject] private IGameSessionUpdater _gameSessionUpdater;
         [Inject] private CompositeDisposable _disposable;
         
         public async UniTask ShowAsync()
@@ -38,8 +39,8 @@ namespace GameCode.Mines
             foreach (var mine in _config.MinesConfig.MinesInformation)
             {
                 var mineInfoItemView = GameObject.Instantiate(_mineSelectionView.MineInfoItemViewPrefab, _mineSelectionView.ContentParent);
-                var currentMine = _sessionProvider.SessionMineId == mine.Key;
-                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected, currentMine);
+                var isCurrentMine = _sessionProvider.GetSession().MineId == mine.Key;
+                mineInfoItemView.SetMineInfo(mine.Key, mine.Value.MineName, mine.Value.MineDescription, OnMineSelected, isCurrentMine);
             }
 
             await UniTask.Yield();
@@ -47,8 +48,8 @@ namespace GameCode.Mines
 
         private async void OnMineSelected(string mineId)
         {
-            if(_sessionProvider.SessionMineId == mineId) return;
-            await _sessionProvider.UpdateSessionMineId(mineId);
+            if(_sessionProvider.GetSession().MineId == mineId) return;
+            await _gameSessionUpdater.UpdateSession(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}", LogContext.LevelConfig);
             await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);

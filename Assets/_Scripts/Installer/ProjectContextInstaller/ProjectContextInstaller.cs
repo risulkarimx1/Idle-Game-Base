@@ -19,6 +19,7 @@ namespace Installer.ProjectContextInstaller
             Container.BindInterfacesAndSelfTo<Bootstrapper>().AsSingle();
             Container.BindInterfacesAndSelfTo<SceneFlowService>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameSessionProvider>().AsSingle();
+            Container.BindInterfacesAndSelfTo<GameGameSessionUpdater>().AsSingle();
             Container.BindInterfacesAndSelfTo<GameInitManager>().AsSingle().CopyIntoAllSubContainers();
         }
     }

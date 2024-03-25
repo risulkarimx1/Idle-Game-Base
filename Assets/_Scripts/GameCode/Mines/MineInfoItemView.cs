@@ -22,14 +22,14 @@ namespace GameCode.Mines
         private Action<string> _clickEvent;
         
 
-        public void SetMineInfo(string mineId, string mineName, string mineDescription, Action<string> clickEvent, bool currentMine)
+        public void SetMineInfo(string mineId, string mineName, string mineDescription, Action<string> clickEvent, bool isCurrentMine)
         {
             _mineId = mineId;
             _clickEvent = clickEvent;
             mineNameText.text = mineName;
             mineDescriptionText.text = mineDescription;
 
-            if (currentMine)
+            if (isCurrentMine)
             {
                 goButton.interactable = false;
                 _goButtonImage.color = _disableColor;

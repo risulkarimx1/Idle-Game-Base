@@ -9,7 +9,7 @@ namespace Installer.BootSceneInstaller
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<GameLevelLoadingService>().AsSingle().NonLazy();
+            Container.BindInterfacesAndSelfTo<GameProxyService.GameSessionLoader>().AsSingle().NonLazy();
         }
     }
 }

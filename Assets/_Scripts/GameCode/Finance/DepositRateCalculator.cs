@@ -18,7 +18,7 @@ namespace GameCode.Finance
         [Inject] private readonly CompositeDisposable _disposables;
         [Inject] private ITimeProvider _timeProvider;
         [Inject] private DataManager _dataManager;
-        [Inject] private GameSessionProvider _sessionProvider;
+        [Inject] private IGameSessionProvider _sessionProvider;
         [Inject] private SignalBus _signalBus;
 
         private readonly List<(DateTime Time, double Amount)> _deposits = new();
@@ -27,7 +27,7 @@ namespace GameCode.Finance
         public void OnAllInitFinished()
         {
             var financeData = _dataManager.Get<FinanceData>();
-            var mineId = _sessionProvider.SessionMineId;
+            var mineId = _sessionProvider.GetSession().MineId;
             _signalBus.GetStream<GameSignals.DepositSignal>().Subscribe(s =>
             {
                 var now = _timeProvider.UtcNow;

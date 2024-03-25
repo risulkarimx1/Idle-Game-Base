@@ -23,14 +23,14 @@ namespace GameCode.Init
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private DataManager _dataManager;
         [Inject] private GameConfig _config;
-        [Inject] private GameSessionProvider _gameSessionProvider;
+        [Inject] private IGameSessionProvider _gameSessionProvider;
         [Inject] private FinanceModel _financeModel;
         [Inject] private ITimeProvider _timeProvider;
         [Inject] private HudController _hudController;
 
         public void OnAllInitFinished()
         {
-            var mineId = _gameSessionProvider.SessionMineId;
+            var mineId = _gameSessionProvider.GetSession().MineId;
             var minesData = _dataManager.Get<MinesData>();
             
             SetupMineShafts(minesData, mineId);
@@ -41,7 +41,7 @@ namespace GameCode.Init
         private void SetupPassiveIncome()
         {
             if(_config.EnablePassiveIncome == false) return;
-            var mineId = _gameSessionProvider.SessionMineId;
+            var mineId = _gameSessionProvider.GetSession().MineId;
             var incomeRate = _dataManager.Get<FinanceData>().GetDepositRate(mineId);
             var logOffTime = _dataManager.Get<GameSessionData>().GetLogOffTime(mineId, _timeProvider);
             var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;

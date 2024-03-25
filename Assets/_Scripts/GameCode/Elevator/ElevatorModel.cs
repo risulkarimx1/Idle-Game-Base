@@ -12,18 +12,16 @@ namespace GameCode.Elevator
     {
         private readonly GameConfig _config;
         private readonly FinanceModel _financeModel;
-        private readonly GameSessionProvider _gameSessionProvider;
         private readonly IReactiveProperty<double> _upgradePrice;
         private readonly IReactiveProperty<int> _level;
         
         [Inject]
-        public ElevatorModel(GameConfig config, FinanceModel financeModel, CompositeDisposable disposable, GameSessionProvider gameSessionProvider)
+        public ElevatorModel(GameConfig config, FinanceModel financeModel, CompositeDisposable disposable, IGameSessionProvider gameSessionProvider)
         {
             _config = config;
             _financeModel = financeModel;
-            _gameSessionProvider = gameSessionProvider;
 
-            var elevatorLevel = GetElevatorLevel();
+            var elevatorLevel = gameSessionProvider.GetSession().ElevatorLevel;
             _level = new ReactiveProperty<int>(elevatorLevel);
             
             StashAmount = new ReactiveProperty<double>();
@@ -33,12 +31,6 @@ namespace GameCode.Elevator
                 .Select(money => money >= _upgradePrice.Value)
                 .ToReadOnlyReactiveProperty()
                 .AddTo(disposable);
-        }
-
-        private int GetElevatorLevel()
-        {
-            var elevatorLevel = _gameSessionProvider.SessionMineData().ElevatorLevel;
-            return elevatorLevel;
         }
 
         public double SkillMultiplier { get; set; }

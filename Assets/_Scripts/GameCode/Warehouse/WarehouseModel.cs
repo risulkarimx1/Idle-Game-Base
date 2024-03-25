@@ -17,12 +17,12 @@ namespace GameCode.Warehouse
         private readonly IReactiveProperty<int> _level;
 
         [Inject]
-        public WarehouseModel( GameConfig config, IFinanceModel financeModel, CompositeDisposable disposable,GameSessionProvider gameSessionProvider)
+        public WarehouseModel( GameConfig config, IFinanceModel financeModel, CompositeDisposable disposable, IGameSessionProvider gameSessionProvider)
         {
             _config = config;
             _financeModel = financeModel;
 
-            var warehouseLevel = gameSessionProvider.SessionMineData().WarehouseLevel;
+            var warehouseLevel = gameSessionProvider.GetSession().WarehouseLevel;
             _level = new ReactiveProperty<int>(warehouseLevel);
             
             SkillMultiplier = Mathf.Pow(_config.ActorSkillIncrementPerShaft, 1) * Mathf.Pow(config.ActorUpgradeSkillIncrement, _level.Value - 1);

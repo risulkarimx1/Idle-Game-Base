@@ -15,12 +15,12 @@ namespace GameCode.Mineshaft
         [Inject] private CompositeDisposable _disposable;
         [Inject] private WarehouseModel _warehouseModel;
         [Inject] private ElevatorModel _elevatorModel;
-        [Inject] private GameSessionProvider _sessionProvider;
+        [Inject] private IGameSessionProvider _sessionProvider;
         private MineData _mineData;
 
         public void OnAllInitFinished()
         {
-            _mineData = _sessionProvider.SessionMineData();
+            _mineData = _sessionProvider.GetSession().MineData;
             
             _signalBus.GetStream<GameSignals.MineshaftCreatedSignal>().Subscribe(OnMineShaftCreated).AddTo(_disposable);
 
