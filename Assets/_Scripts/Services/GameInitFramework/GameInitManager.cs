@@ -7,15 +7,15 @@ using Zenject;
 
 namespace Services.GameInitFramework
 {
-    public class GameInitManager: IInitializable, IDisposable
+    public class GameInitManager : IInitializable, IDisposable
     {
         private DiContainer _container;
         private IRequireInit[] _initSources;
         private Dictionary<Type, IList> _initializablesBySource;
         private IInitializableAfterAll[] _afterAllInitializables;
 
-        public GameInitManager(DiContainer container, 
-            [Inject(Optional = true, Source = InjectSources.Any)] 
+        public GameInitManager(DiContainer container,
+            [Inject(Optional = true, Source = InjectSources.Any)]
             IRequireInit[] initSources,
             [Inject(Optional = true, Source = InjectSources.Local)]
             IInitializableAfterAll[] afterAllInitializables)
@@ -62,7 +62,7 @@ namespace Services.GameInitFramework
             }
 
             await UniTask.WhenAll(tasks);
-            
+
             await UniTask.Yield();
             foreach (var initializable in _afterAllInitializables)
                 initializable.OnAllInitFinished();
@@ -76,12 +76,12 @@ namespace Services.GameInitFramework
                 return;
             await UniTask.Yield();
             var interfaceType = typeof(IInitializableAfter<>).MakeGenericType(source.GetType());
-            var methodName = nameof(IInitializableAfter<IRequireInit>.OnInitFinishedFor);// Taking data Manager as an example
+            var methodName =
+                nameof(IInitializableAfter<IRequireInit>.OnInitFinishedFor); // Taking data Manager as an example
             var method = interfaceType.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public)!;
             foreach (var initializable in initializables)
                 if (interfaceType.IsInstanceOfType(initializable))
                     method.Invoke(initializable, new object[] { source });
         }
-        
     }
 }

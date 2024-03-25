@@ -18,7 +18,7 @@ namespace Services.DataFramework
         {
             IV = GameConfig.GetInstance().DataInitVector;
             Key = GameConfig.GetInstance().DataKey;
-            
+
             _directoryPath = Path.Combine(Application.persistentDataPath, GameConfig.GetInstance().DataKey);
             _encryptionService = service;
             IsDirty = false;
@@ -33,24 +33,24 @@ namespace Services.DataFramework
             var filePath = Path.Combine(_directoryPath, $"{fileName}");
 
             var serializedData = JsonConvert.SerializeObject(data);
-            
+
             var encryptedData = new EncryptedData
             {
                 Data = await _encryptionService.EncryptStringAsync(serializedData),
                 KeyVersion = Key
             };
-            
+
             var encryptedDataAsJson = JsonConvert.SerializeObject(encryptedData, Formatting.Indented);
-            
-            await File.WriteAllTextAsync(filePath,  encryptedDataAsJson);
+
+            await File.WriteAllTextAsync(filePath, encryptedDataAsJson);
             Debug.Log($"Data forced saved to {filePath}", LogContext.DataManager);
         }
-        
+
 
         public async UniTask<T> LoadAsync<T>(string fileName, string expectedKeyVersion) where T : BaseData, new()
         {
             var filePath = Path.Combine(_directoryPath, fileName);
-            
+
             if (File.Exists(filePath))
             {
                 var json = await File.ReadAllTextAsync(filePath);
@@ -59,7 +59,8 @@ namespace Services.DataFramework
 
                 if (encryptedData.KeyVersion != expectedKeyVersion)
                 {
-                    Debug.Log($"Key version mismatch. Migrating data to version {expectedKeyVersion}.", LogContext.DataManager);
+                    Debug.Log($"Key version mismatch. Migrating data to version {expectedKeyVersion}.",
+                        LogContext.DataManager);
                     var decryptedData = await _encryptionService.DecryptString(encryptedData.Data);
                     var dataObject = JsonConvert.DeserializeObject<T>(decryptedData);
                     Key = expectedKeyVersion;
@@ -81,5 +82,4 @@ namespace Services.DataFramework
             return newData;
         }
     }
-
 }

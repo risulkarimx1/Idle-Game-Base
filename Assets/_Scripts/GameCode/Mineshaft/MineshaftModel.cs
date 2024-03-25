@@ -8,7 +8,6 @@ namespace GameCode.Mineshaft
 {
     public class MineshaftModel : IAreaModel
     {
-        private const double BasePrice = 60;
         private readonly GameConfig _config;
         private readonly FinanceModel _financeModel;
         
@@ -36,8 +35,8 @@ namespace GameCode.Mineshaft
             StashAmount = new ReactiveProperty<double>();
             SkillMultiplier = Mathf.Pow(_config.ActorSkillIncrementPerShaft, MineshaftNumber) * Mathf.Pow(config.ActorUpgradeSkillIncrement, _level.Value - 1);
             
-            _upgradePrice = new ReactiveProperty<double>(BasePrice * Mathf.Pow(config.ActorPriceIncrementPerShaft, MineshaftNumber - 1)
-                                                                   * Mathf.Pow(_config.ActorUpgradePriceIncrement, _level.Value - 1));
+            _upgradePrice = new ReactiveProperty<double>(config.MineShaftBasePrice * Mathf.Pow(config.ActorPriceIncrementPerShaft, MineshaftNumber - 1)
+                                                                         * Mathf.Pow(_config.ActorUpgradePriceIncrement, _level.Value - 1));
             NextShaftPrice = config.MineshaftConfig.BaseMineshaftCost * Mathf.Pow(config.MineshaftConfig.MineshaftCostIncrement, MineshaftNumber - 1);
             CanUpgrade = _financeModel.Money
                 .Select(money => money >= _upgradePrice.Value)

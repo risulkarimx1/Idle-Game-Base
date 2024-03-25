@@ -8,10 +8,8 @@ namespace GameCode.Persistence
     [DataIdentifier("mines_data")]
     public class MinesData : BaseData
     {
-        [JsonProperty("mine_data")] 
-        private Dictionary<string, MineData> _mineData = new();
-
-        // Get Methods
+        [JsonProperty("mine_data")] private Dictionary<string, MineData> _mineData = new();
+        
         public MineData GetMineData(string mineId)
         {
             TryCreateMineData(mineId);
@@ -23,7 +21,7 @@ namespace GameCode.Persistence
             var mineData = GetMineData(mineId);
             return mineData.GetMineShaftsLevel();
         }
-        
+
         public Dictionary<int, int> ReadMineshaftLevels(string mineId)
         {
             return GetMineshaftLevels(mineId).Clone();

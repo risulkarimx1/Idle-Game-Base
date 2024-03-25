@@ -20,7 +20,7 @@ namespace Services.Utils
 #if UNITY_EDITOR
             Assert.IsTrue(type == typeof(Object) || type.IsSubclassOf(typeof(Object)));
             var guids = UnityEditor.AssetDatabase.FindAssets($"t:{(type == typeof(GameObject) ? "GameObject" : type)}");
-            
+
             foreach (var id in guids)
             {
                 var path = UnityEditor.AssetDatabase.GUIDToAssetPath(id);

@@ -5,12 +5,12 @@ using Services.DataFramework;
 namespace GameCode.Persistence
 {
     [DataIdentifier("finance_data")]
-    public class FinanceData: BaseData
+    public class FinanceData : BaseData
     {
-        [JsonProperty("deposit_rate")]
-        private Dictionary<string,double> _depositRates = new();
-        
+        [JsonProperty("deposit_rate")] private Dictionary<string, double> _depositRates = new();
+
         [JsonProperty("player_money")] private double _money;
+
         public double Money
         {
             get => _money;

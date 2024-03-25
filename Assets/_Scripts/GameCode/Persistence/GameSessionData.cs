@@ -7,10 +7,9 @@ using Services.DataFramework;
 namespace GameCode.Persistence
 {
     [DataIdentifier("game_session_data")]
-    public class GameSessionData: BaseData
+    public class GameSessionData : BaseData
     {
-        [JsonProperty("session_logoff_time")]
-        private Dictionary<string, DateTime> _sessionLogOffTimes = new();
+        [JsonProperty("session_logoff_time")] private Dictionary<string, DateTime> _sessionLogOffTimes = new();
 
         [JsonProperty("session_mine")] private string _mineId;
 
@@ -23,7 +22,7 @@ namespace GameCode.Persistence
                 SetDirty();
             }
         }
-        
+
         public void UpdateLoggOffTime(string mineId, ITimeProvider timeProvider)
         {
             if (_sessionLogOffTimes.ContainsKey(mineId) == false)
@@ -32,7 +31,7 @@ namespace GameCode.Persistence
                 _sessionLogOffTimes[mineId] = timeProvider.UtcNow;
             SetDirty();
         }
-        
+
         public DateTime GetLogOffTime(string mineId, ITimeProvider timeProvider)
         {
             if (_sessionLogOffTimes.ContainsKey(mineId) == false)

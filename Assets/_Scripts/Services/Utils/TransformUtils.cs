@@ -12,7 +12,7 @@ namespace Services.Utils
             for (int i = 0; i < childCount; i++) children[i] = transform.GetChild(i);
             return children;
         }
-        
+
         public static List<Transform> GetDeepChildren(this Transform transform)
         {
             var queue = new Queue<Transform>(256);

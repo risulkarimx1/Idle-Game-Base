@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using Debug = Services.LogFramework.Debug;
 
-
 namespace _Scripts.EditorUtil.Editor
 {
     public class DataEditorTool

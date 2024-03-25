@@ -1,5 +1,5 @@
 using GameCode.Init;
-using LevelLoaderScripts;
+using GameSessions;
 using Services.GameInitFramework;
 using Services.LoadingScreen;
 using Services.LogFramework;
@@ -8,12 +8,12 @@ using Zenject;
 
 namespace GameSessionLoaderScripts
 {
-    public class GameSessionLoader: IInitializableAfterAll
+    public class GameSessionLoader : IInitializableAfterAll
     {
         [Inject] private SceneFlowService _sceneFlowService;
         [Inject] private LoadingController _loadingController;
         [Inject] private IGameSessionProvider _gameSessionProvider;
-        
+
         public async void OnAllInitFinished()
         {
             Debug.Log($"All components loaded at {nameof(GameSessionLoader)}", LogContext.SceneFlow);

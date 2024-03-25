@@ -2,7 +2,7 @@ using GameCode.Elevator;
 using GameCode.Persistence;
 using GameCode.Signals;
 using GameCode.Warehouse;
-using LevelLoaderScripts;
+using GameSessions;
 using Services.GameInitFramework;
 using UniRx;
 using Zenject;
@@ -21,19 +21,13 @@ namespace GameCode.Mines
         public void OnAllInitFinished()
         {
             _mineData = _sessionProvider.GetSession().MineData;
-            
+
             _signalBus.GetStream<GameSignals.MineshaftCreatedSignal>().Subscribe(OnMineShaftCreated).AddTo(_disposable);
 
-            _warehouseModel.Level.Subscribe(value =>
-                {
-                    _mineData.WarehouseLevel = value;
-                })
+            _warehouseModel.Level.Subscribe(value => { _mineData.WarehouseLevel = value; })
                 .AddTo(_disposable);
 
-            _elevatorModel.Level.Subscribe(value =>
-            {
-                _mineData.ElevatorLevel = value;
-            }).AddTo(_disposable);
+            _elevatorModel.Level.Subscribe(value => { _mineData.ElevatorLevel = value; }).AddTo(_disposable);
         }
 
         private void OnMineShaftCreated(GameSignals.MineshaftCreatedSignal signal)

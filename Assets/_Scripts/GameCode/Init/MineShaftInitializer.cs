@@ -1,6 +1,6 @@
 using GameCode.Mineshaft;
 using GameCode.Persistence;
-using LevelLoaderScripts;
+using GameSessions;
 using Services.DataFramework;
 using Services.GameInitFramework;
 using Services.Utils;
@@ -9,19 +9,20 @@ using Zenject;
 
 namespace GameCode.Init
 {
-    public class MineShaftInitializer: IInitializableAfterAll
+    public class MineShaftInitializer : IInitializableAfterAll
     {
         [Inject(Id = GameConstants.FirstMinePositionObjectTag)]
         private Transform _mineshaftStartingPosition;
-        
+
         [Inject] private IMineshaftFactory _mineshaftFactory;
         [Inject] private IDataManager _dataManager;
         [Inject] private IGameSessionProvider _gameSessionProvider;
-        
+
         public void OnAllInitFinished()
         {
             SetupMineShafts();
         }
+
         private void SetupMineShafts()
         {
             var mineId = _gameSessionProvider.GetSession().MineId;

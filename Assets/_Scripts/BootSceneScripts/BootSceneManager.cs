@@ -7,7 +7,6 @@ using Zenject;
 
 namespace BootSceneScripts
 {
-    
     public class BootSceneManager : IInitializableAfterAll
     {
         [Inject] private SceneFlowService _sceneFlowService;

@@ -7,17 +7,12 @@ namespace GameCode.Persistence
     [Serializable]
     public class MineData
     {
-        [JsonProperty("mine_id")] 
-        private string _mineId;
-
+        [JsonProperty("mine_id")] private string _mineId;
+        [JsonProperty("mine_shaft_levels")] private Dictionary<int, int> _mineShaftLevels;
+        [JsonProperty("elevator_level")] private int _elevatorLevel;
+        [JsonProperty("warehouse_level")] private int _warehouseLevel;
+        
         private Action _dataUpdated;
-
-        [JsonProperty("mine_shaft_levels")] 
-        private Dictionary<int, int> _mineShaftLevels;
-        [JsonProperty("elevator_level")]
-        private int _elevatorLevel;
-        [JsonProperty("warehouse_level")]
-        private int _warehouseLevel;
 
         public MineData(string mineId)
         {
@@ -52,7 +47,7 @@ namespace GameCode.Persistence
                 _dataUpdated?.Invoke();
             }
         }
-        
+
         public void Copy(MineData mineData)
         {
             _mineId = mineData._mineId;
@@ -65,12 +60,13 @@ namespace GameCode.Persistence
         {
             return _mineShaftLevels;
         }
-        
+
         public int GetMineShaftLevel(int mineShaftNumber)
         {
             TryCreateMineshaft(mineShaftNumber);
             return _mineShaftLevels[mineShaftNumber];
         }
+
         public void SetMineShaftLevel(int mineShaftNumber, int level)
         {
             TryCreateMineshaft(mineShaftNumber);

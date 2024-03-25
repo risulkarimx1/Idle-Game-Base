@@ -4,6 +4,5 @@ namespace Services.DataFramework
     {
         protected string IV { get; set; }
         protected string Key { get; set; }
-
     }
 }

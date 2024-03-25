@@ -11,8 +11,7 @@ namespace GameCode.Mines
     {
         [SerializeField] private MinesInformation defaultMineInformation;
 
-        [SerializeField]
-        private Dictionary<string, MinesInformation> _minesInformation;
+        [SerializeField] private Dictionary<string, MinesInformation> _minesInformation;
 
         public Dictionary<string, MinesInformation> MinesInformation => _minesInformation;
 

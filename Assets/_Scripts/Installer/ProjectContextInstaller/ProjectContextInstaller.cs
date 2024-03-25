@@ -1,6 +1,6 @@
 using GameCode.Init;
 using GameCode.TimeProvider;
-using LevelLoaderScripts;
+using GameSessions;
 using Services.GameInitFramework;
 using Services.SceneFlowServices;
 using UnityEngine;
@@ -12,6 +12,7 @@ namespace Installer.ProjectContextInstaller
     public class ProjectContextInstaller : ScriptableObjectInstaller<ProjectContextInstaller>
     {
         [SerializeField] private GameConfig _gameConfig;
+
         public override void InstallBindings()
         {
             Container.BindInstance(_gameConfig).AsSingle();

@@ -5,17 +5,20 @@ using System.Reflection;
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
 using Services.GameInitFramework;
+using Services.LogFramework;
 using UniRx;
 using Zenject;
+using Debug = Services.LogFramework.Debug;
 
 namespace Services.DataFramework
 {
     public interface IDataManager : IInitializable, IDisposable, IRequireInit
-    { 
+    {
         UniTask SaveAsync<T>() where T : BaseData;
         UniTask SaveAllAsync();
         T Get<T>() where T : BaseData;
     }
+
     public class DataManager : IDataManager
     {
         [Inject] private IEncryptionService _encryptionService;
@@ -25,7 +28,7 @@ namespace Services.DataFramework
 
         private readonly ReactiveProperty<bool> _isInitialized = new();
         public bool InitFinished => _isInitialized.Value;
-        
+
         private GameInitManager _gameInitManager;
 
         private Dictionary<Type, BaseData> _typeToDataMatch = new();
@@ -51,8 +54,8 @@ namespace Services.DataFramework
             }));
 
             _isInitialized.Value = true;
-            
         }
+
         private void CacheReflectionResults()
         {
             if (_derivedTypesCache == null || _derivedTypesCache.Count == 0)
@@ -71,7 +74,6 @@ namespace Services.DataFramework
             }
         }
 
-       
 
         private UniTask<T> LoadAsync<T>() where T : BaseData, new()
         {
@@ -99,7 +101,7 @@ namespace Services.DataFramework
             await UniTask.WhenAll(_typeToDataMatch.Select(entry =>
             {
                 if (entry.Value.IsDirty == false) return UniTask.CompletedTask;
-                
+
                 var fileName = GetIdentifier(entry.Key);
                 var task = _dataHandler.SaveAsync(fileName, entry.Value);
                 entry.Value.IsDirty = false;
@@ -121,7 +123,13 @@ namespace Services.DataFramework
 
         public T Get<T>() where T : BaseData
         {
-            return _typeToDataMatch[typeof(T)] as T;
+            // add a check if the type is present in the dictionary
+            if (!_typeToDataMatch.ContainsKey(typeof(T)))
+            {
+                Debug.LogError($"Type {typeof(T)} not found in data manager. Data Manager is not initialized yet.", LogContext.DataManager);
+                return null;
+            }
+            return (T)_typeToDataMatch[typeof(T)];
         }
 
         public void Dispose()

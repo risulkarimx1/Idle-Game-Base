@@ -17,8 +17,9 @@ namespace GameCode.Mines
         [SerializeField] private Color disableColor;
         [SerializeField] private Color enableColor;
         [SerializeField] private Image goButtonImage;
-        
-        public void Configure(string mineId, string mineName, string mineDescription, bool isCurrentMine, Action<string> mineSelected)
+
+        public void Configure(string mineId, string mineName, string mineDescription, bool isCurrentMine,
+            Action<string> mineSelected)
         {
             mineNameText.text = mineName;
             mineDescriptionText.text = mineDescription;
@@ -32,15 +33,15 @@ namespace GameCode.Mines
             {
                 goButtonImage.color = enableColor;
                 goButton.interactable = true;
-                
+
                 goButton.OnPointerDownAsObservable().Subscribe(_ =>
                     goButtonAnimated.DOAnchorPosY(0, 0.1f).SetEase(Ease.Linear)).AddTo(this);
-                
+
                 goButton.OnPointerUpAsObservable().Subscribe(_ =>
                 {
                     mineSelected?.Invoke(mineId);
                     goButton.interactable = false;
-                }).AddTo(this);   
+                }).AddTo(this);
             }
         }
     }

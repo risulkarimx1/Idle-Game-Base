@@ -7,5 +7,4 @@ namespace Services.DataFramework
         UniTask<T> LoadAsync<T>(string fileName, string expectedKeyVersion) where T : BaseData, new();
         UniTask SaveAsync(string dataIdentifier, BaseData baseData);
     }
-
 }

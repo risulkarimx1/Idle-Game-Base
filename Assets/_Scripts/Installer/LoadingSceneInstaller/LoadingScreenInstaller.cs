@@ -1,16 +1,18 @@
 using Services.LoadingScreen;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Installer.LoadingSceneInstaller
 {
     [CreateAssetMenu(fileName = "LoadingSceneInstaller", menuName = "Installers/LoadingSceneInstaller")]
-    public class LoadingSceneInstaller : ScriptableObjectInstaller<LoadingSceneInstaller>
+    public class LoadingScreenInstaller : ScriptableObjectInstaller<LoadingScreenInstaller>
     {
-        [SerializeField] private LoadingView _loadingViewPrefab;
+        [FormerlySerializedAs("_loadingViewPrefab")] [SerializeField] private LoadingView loadingViewPrefab;
+
         public override void InstallBindings()
         {
-            Container.Bind<LoadingView>().FromComponentInNewPrefab(_loadingViewPrefab).AsSingle();
+            Container.Bind<LoadingView>().FromComponentInNewPrefab(loadingViewPrefab).AsSingle();
             Container.Bind<LoadingController>().AsSingle();
         }
     }

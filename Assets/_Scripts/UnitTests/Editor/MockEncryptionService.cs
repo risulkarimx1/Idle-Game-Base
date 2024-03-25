@@ -3,7 +3,7 @@ using Services.DataFramework;
 
 namespace _Scripts.UnitTests.Editor
 {
-    public class MockEncryptionService: IEncryptionService
+    public class MockEncryptionService : IEncryptionService
     {
         public UniTask<string> EncryptStringAsync(string plainText)
         {

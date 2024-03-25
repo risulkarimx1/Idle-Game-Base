@@ -4,30 +4,33 @@ using GameCode.Finance;
 using NUnit.Framework;
 using Zenject;
 
-[TestFixture]
-public class PassiveIncomeCalculatorTests : ZenjectUnitTestFixture
+namespace _Scripts.UnitTests.Editor
 {
-    private PassiveIncomeCalculator _passiveIncomeCalculator;
-
-    [SetUp]
-    public void SetUp()
+    [TestFixture]
+    public class PassiveIncomeCalculatorTests : ZenjectUnitTestFixture
     {
-        _passiveIncomeCalculator = new PassiveIncomeCalculator();
-    }
+        private PassiveIncomeCalculator _passiveIncomeCalculator;
 
-    [Test]
-    public void CalculateIncomeRate_ReturnsCorrectIncomeRate()
-    {
-        _passiveIncomeCalculator._deposits = new List<(DateTime Time, double Amount)>
+        [SetUp]
+        public void SetUp()
         {
-            (DateTime.UtcNow.AddSeconds(-10), 100),
-            (DateTime.UtcNow.AddSeconds(-5), 200),
-            (DateTime.UtcNow, 300)
-        };
+            _passiveIncomeCalculator = new PassiveIncomeCalculator();
+        }
 
-        var incomeRate = _passiveIncomeCalculator.CalculateIncomeRate();
+        [Test]
+        public void CalculateIncomeRate_ReturnsCorrectIncomeRate()
+        {
+            _passiveIncomeCalculator._deposits = new List<(DateTime Time, double Amount)>
+            {
+                (DateTime.UtcNow.AddSeconds(-10), 100),
+                (DateTime.UtcNow.AddSeconds(-5), 200),
+                (DateTime.UtcNow, 300)
+            };
 
-        var isCloseEnough = Math.Abs(60 - incomeRate) < 0.01;
-        Assert.IsTrue(isCloseEnough);
+            var incomeRate = _passiveIncomeCalculator.CalculateIncomeRate();
+
+            var isCloseEnough = Math.Abs(60 - incomeRate) < 0.01;
+            Assert.IsTrue(isCloseEnough);
+        }
     }
 }

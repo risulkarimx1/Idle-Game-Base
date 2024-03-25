@@ -4,6 +4,5 @@ namespace Services.DataFramework
     {
         public string Data { get; set; }
         public string KeyVersion { get; set; }
-        
     }
 }

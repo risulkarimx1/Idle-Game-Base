@@ -5,16 +5,16 @@ namespace Services.LogFramework
 {
     public enum LogContext : byte
     {
-        UIFrame = 0,
         DataManager = 1,
         SceneFlow = 2,
-        LevelConfig =3,
-        FinanceModel = 4,
-        MineSelection = 5
+        LevelConfig = 3,
+        FinanceModel = 4
     }
+
     public static partial class Debug
     {
         private static readonly Dictionary<LogContext, Color> colorCache = new();
+
         private static Color GenerateColorForEnum(LogContext context)
         {
             // Check if the color is already in the cache
@@ -42,7 +42,7 @@ namespace Services.LogFramework
 
             return color;
         }
-        
+
         public static void Log(string message, LogContext context)
         {
             var color = GenerateColorForEnum(context);

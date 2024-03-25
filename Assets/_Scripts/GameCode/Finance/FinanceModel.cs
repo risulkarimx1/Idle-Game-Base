@@ -11,11 +11,13 @@ namespace GameCode.Finance
         void AddResource(double amount, bool initialDeposit = false);
         double DrawResource(double amount);
     }
-    public class FinanceModel: IFinanceModel
+
+    public class FinanceModel : IFinanceModel
     {
         private readonly IReactiveProperty<double> _money;
         public IReadOnlyReactiveProperty<double> Money => _money;
         [Inject] private SignalBus _signalBus;
+
         public FinanceModel()
         {
             _money = new ReactiveProperty<double>(0);
@@ -30,10 +32,9 @@ namespace GameCode.Finance
             }
 
             _money.Value += amount;
-            
+
             if (!initialDeposit)
                 _signalBus.Fire(new GameSignals.DepositSignal(amount));
-            
         }
 
         public double DrawResource(double amount)

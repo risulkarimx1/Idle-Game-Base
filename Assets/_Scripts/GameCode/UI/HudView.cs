@@ -7,7 +7,7 @@ namespace GameCode.UI
 {
     public class HudView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _cashAmount;
+        [SerializeField] private TextMeshProUGUI _cashAmount;
         [SerializeField] private TextMeshProUGUI _passiveIncomeText;
         [SerializeField] private GameObject _tooltip;
         [SerializeField] private Button _mapButton;
