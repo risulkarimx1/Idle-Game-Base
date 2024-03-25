@@ -30,10 +30,7 @@ namespace GameCode.Init
 
         public void OnAllInitFinished()
         {
-            var mineId = _gameSessionProvider.GetSession().MineId;
-            var minesData = _dataManager.Get<MinesData>();
-            
-            SetupMineShafts(minesData, mineId);
+            SetupMineShafts();
             SetupFinanceModel();
             SetupPassiveIncome();
         }
@@ -61,8 +58,10 @@ namespace GameCode.Init
             }).AddTo(_disposable);
         }
 
-        private void SetupMineShafts(MinesData minesData, string mineId)
+        private void SetupMineShafts()
         {
+            var mineId = _gameSessionProvider.GetSession().MineId;
+            var minesData = _dataManager.Get<MinesData>();
             var mineShaftLevels = minesData.ReadMineshaftLevels(mineId);
             var mineShaftPosition = _mineshaftStartingPosition.position;
             

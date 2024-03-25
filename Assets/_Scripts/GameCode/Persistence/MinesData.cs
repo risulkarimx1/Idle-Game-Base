@@ -12,7 +12,7 @@ namespace GameCode.Persistence
         [JsonProperty("mine_id")] 
         private string _mineId;
 
-        private readonly MinesData _minesData;
+        private Action _dataUpdated;
 
         [JsonProperty("mine_shaft_levels")] 
         private Dictionary<int, int> _mineShaftLevels;
@@ -21,14 +21,18 @@ namespace GameCode.Persistence
         [JsonProperty("warehouse_level")]
         private int _warehouseLevel;
 
-        public MineData(string mineId, MinesData minesData)
+        public MineData(string mineId)
         {
             _mineId = mineId;
-            _minesData = minesData;
             _mineShaftLevels = new Dictionary<int, int>
             {
                 { 1, 1 }
             };
+        }
+
+        public void Initialize(Action dataUpdated)
+        {
+            _dataUpdated = dataUpdated;
         }
 
         public int ElevatorLevel
@@ -37,7 +41,7 @@ namespace GameCode.Persistence
             set
             {
                 _elevatorLevel = value;
-                _minesData?.SetDirty();
+                _dataUpdated?.Invoke();
             }
         }
 
@@ -47,7 +51,7 @@ namespace GameCode.Persistence
             set
             {
                 _warehouseLevel = value;
-                _minesData?.SetDirty();
+                _dataUpdated?.Invoke();
             }
         }
         
@@ -73,7 +77,7 @@ namespace GameCode.Persistence
         {
             TryCreateMineshaft(mineShaftNumber);
             _mineShaftLevels[mineShaftNumber] = level;
-            _minesData?.SetDirty();
+            _dataUpdated?.Invoke();
         }
 
         private void TryCreateMineshaft(int mineShaftNumber)
@@ -108,9 +112,12 @@ namespace GameCode.Persistence
 
         private void TryCreateMineData(string mineId)
         {
-            if (_mineData.ContainsKey(mineId)) return;
-            var mineData = new MineData(mineId, this);
-            _mineData.Add(mineId, mineData);
+            if (!_mineData.TryGetValue(mineId, out _))
+            {
+                _mineData[mineId] = new MineData(mineId);
+            }
+
+            _mineData[mineId].Initialize(SetDirty);
         }
     }
 }
