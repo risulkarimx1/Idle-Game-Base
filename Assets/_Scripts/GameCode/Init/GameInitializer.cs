@@ -43,7 +43,7 @@ namespace GameCode.Init
             if(_config.EnablePassiveIncome == false) return;
             var mineId = _gameSessionProvider.SessionMineId;
             var incomeRate = _dataManager.Get<FinanceData>().GetDepositRate(mineId);
-            var logOffTime = _dataManager.Get<PassiveIncomeData>().GetLogOffTime(mineId, _timeProvider);
+            var logOffTime = _dataManager.Get<GameSessionData>().GetLogOffTime(mineId, _timeProvider);
             var timeDifferenceInSecond = (_timeProvider.UtcNow - logOffTime).TotalSeconds;
             var totalPassiveIncome = incomeRate * timeDifferenceInSecond;
             if(totalPassiveIncome <= 0) return;
@@ -53,11 +53,11 @@ namespace GameCode.Init
 
         private void SetupFinanceModel()
         {
-            var money = Math.Max(_config.StartingMoney, _dataManager.Get<PlayerData>().Money);
+            var money = Math.Max(_config.StartingMoney, _dataManager.Get<FinanceData>().Money);
             _financeModel.AddResource(money, true);
             _financeModel.Money.Subscribe(value =>
             {
-                _dataManager.Get<PlayerData>().Money = value;
+                _dataManager.Get<FinanceData>().Money = value;
             }).AddTo(_disposable);
         }
 

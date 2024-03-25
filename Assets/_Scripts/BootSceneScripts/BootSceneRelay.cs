@@ -13,7 +13,7 @@ namespace BootSceneScripts
 
         public async void OnAllInitFinished()
         {
-            Debug.Log($"here in {nameof(BootSceneRelay)}", LogContext.SceneFlow);
+            Debug.Log($"Game Initialized at {nameof(BootSceneRelay)}", LogContext.SceneFlow);
             await _loadingController.Appear();  
             await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, false);
             await _loadingController.Hide();

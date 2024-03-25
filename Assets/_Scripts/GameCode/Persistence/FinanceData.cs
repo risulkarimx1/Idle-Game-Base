@@ -9,6 +9,17 @@ namespace GameCode.Persistence
     {
         [JsonProperty("deposit_rate")]
         private Dictionary<string,double> _depositRates = new();
+        
+        [JsonProperty("player_money")] private double _money;
+        public double Money
+        {
+            get => _money;
+            set
+            {
+                _money = value;
+                SetDirty();
+            }
+        }
 
         public void SetDepositRate(string mineId, double depositRate)
         {

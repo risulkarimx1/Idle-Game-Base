@@ -17,17 +17,13 @@ namespace LevelLoaderScripts
         {
             get
             {
-                var value = _dataManager.Get<PlayerData>().MineId;
+                var value = _dataManager.Get<GameSessionData>().MineId;
                 if (string.IsNullOrEmpty(value))
                 {
                     value = _config.MinesConfig.DefaultMineInformation.MineId;
                 }
 
                 return value;
-            }
-            private set
-            {
-                _dataManager.Get<PlayerData>().MineId = value;
             }
         }
 
@@ -40,8 +36,8 @@ namespace LevelLoaderScripts
 
         public async UniTask UpdateSessionMineId(string mineId)
         {
-            _dataManager.Get<PlayerData>().MineId = mineId;
-            _dataManager.Get<PassiveIncomeData>().UpdateLoggOffTime(mineId, _timeProvider);
+            _dataManager.Get<GameSessionData>().MineId = mineId;
+            _dataManager.Get<GameSessionData>().UpdateLoggOffTime(mineId, _timeProvider);
             await _dataManager.SaveAllAsync();
         }
     }
