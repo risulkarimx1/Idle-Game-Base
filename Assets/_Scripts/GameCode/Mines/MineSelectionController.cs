@@ -1,11 +1,13 @@
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
 using LevelLoaderScripts;
+using Services.LogFramework;
 using Services.SceneFlowServices;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Debug = Services.LogFramework.Debug;
 
 namespace GameCode.Mines
 {
@@ -48,7 +50,7 @@ namespace GameCode.Mines
             if(_sessionProvider.SessionMineId == mineId) return;
             await _sessionProvider.UpdateSessionMineId(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
-            Debug.Log($"Selected mine with id {mineId}");
+            Debug.Log($"Selected mine with id {mineId}", LogContext.LevelConfig);
             await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
         }
         

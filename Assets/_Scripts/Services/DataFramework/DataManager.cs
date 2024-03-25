@@ -102,8 +102,12 @@ namespace Services.DataFramework
         {
             await UniTask.WhenAll(_typeToDataMatch.Select(entry =>
             {
+                if (entry.Value.IsDirty == false) return UniTask.CompletedTask;
+                
                 var fileName = GetIdentifier(entry.Key);
-                return _dataHandler.SaveAsync(fileName, entry.Value);
+                var task = _dataHandler.SaveAsync(fileName, entry.Value);
+                entry.Value.IsDirty = false;
+                return task;
             }));
         }
 

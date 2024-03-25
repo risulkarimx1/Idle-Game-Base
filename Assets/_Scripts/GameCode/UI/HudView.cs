@@ -14,7 +14,17 @@ namespace GameCode.UI
 
         public double CashAmount
         {
-            set => _cashAmount.SetText(value.ToString("F0"));
+            set
+            {
+                string formattedValue;
+                
+                if (value >= 1000000)
+                    formattedValue = (value / 1000000).ToString("F1") + "M";
+                else
+                    formattedValue = value.ToString("F0");
+                
+                _cashAmount.SetText(formattedValue);
+            }
         }
 
         public bool TooltipVisible

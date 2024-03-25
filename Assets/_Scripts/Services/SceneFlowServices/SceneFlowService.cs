@@ -44,7 +44,7 @@ namespace Services.SceneFlowServices
             {
                 foreach (var handle in handles)
                 {
-                    Debug.Log($"Releasing asset: {handle}", LogContext.SceneFlow);
+                    Debug.Log($"Releasing asset: {handle.DebugName}", LogContext.SceneFlow);
                     Addressables.Release(handle);
                     await UniTask.Yield();
                 }
@@ -54,7 +54,7 @@ namespace Services.SceneFlowServices
 
         public static void MoveObjectToScene(GameObject gameObject, string sceneName)
         {
-            Debug.Log($"Moving object to scene: {sceneName}", LogContext.SceneFlow);
+            Debug.Log($"Moving {gameObject.name} to scene: {sceneName}", LogContext.SceneFlow);
             SceneManager.MoveGameObjectToScene(gameObject,
                 SceneManager.GetSceneByName(sceneName));
         }

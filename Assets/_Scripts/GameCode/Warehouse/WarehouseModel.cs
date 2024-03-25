@@ -11,13 +11,13 @@ namespace GameCode.Warehouse
     public class WarehouseModel : IAreaModel
     {
         private readonly GameConfig _config;
-        private readonly FinanceModel _financeModel;
+        private readonly IFinanceModel _financeModel;
         
         private readonly IReactiveProperty<double> _upgradePrice;
         private readonly IReactiveProperty<int> _level;
 
         [Inject]
-        public WarehouseModel( GameConfig config, FinanceModel financeModel, CompositeDisposable disposable,GameSessionProvider gameSessionProvider)
+        public WarehouseModel( GameConfig config, IFinanceModel financeModel, CompositeDisposable disposable,GameSessionProvider gameSessionProvider)
         {
             _config = config;
             _financeModel = financeModel;

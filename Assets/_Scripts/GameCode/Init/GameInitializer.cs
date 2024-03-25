@@ -34,9 +34,7 @@ namespace GameCode.Init
             var minesData = _dataManager.Get<MinesData>();
             
             SetupMineShafts(minesData, mineId);
-
             SetupFinanceModel();
-
             SetupPassiveIncome();
         }
 
