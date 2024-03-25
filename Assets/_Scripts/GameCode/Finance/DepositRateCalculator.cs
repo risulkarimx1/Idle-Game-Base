@@ -17,7 +17,7 @@ namespace GameCode.Finance
     {
         [Inject] private readonly CompositeDisposable _disposables;
         [Inject] private ITimeProvider _timeProvider;
-        [Inject] private DataManager _dataManager;
+        [Inject] private IDataManager _dataManager;
         [Inject] private IGameSessionProvider _sessionProvider;
         [Inject] private SignalBus _signalBus;
 

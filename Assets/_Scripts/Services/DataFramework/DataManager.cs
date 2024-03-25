@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
+using GameCode.Init;
+using GameCode.Utils;
 using Services.GameInitFramework;
 using UniRx;
 using Zenject;
@@ -10,18 +12,13 @@ using Zenject;
 namespace Services.DataFramework
 {
     public interface IDataManager : IInitializable, IDisposable, IRequireInit
-    {
-        new bool InitFinished { get; }
-        new void Initialize();
+    { 
         UniTask SaveAsync<T>() where T : BaseData;
         UniTask SaveAllAsync();
         T Get<T>() where T : BaseData;
     }
     public class DataManager : IDataManager
     {
-        public static string Key = "1234567890abcdef1234567890abcdef";
-        public static string IV = "1234567890abcdef";
-        
         [Inject] private IEncryptionService _encryptionService;
 
         [Inject] private IDataHandler _dataHandler;
@@ -80,7 +77,7 @@ namespace Services.DataFramework
         private UniTask<T> LoadAsync<T>() where T : BaseData, new()
         {
             var fileName = GetIdentifier(typeof(T));
-            return _dataHandler.LoadAsync<T>(fileName, Key);
+            return _dataHandler.LoadAsync<T>(fileName, GameConfig.DataKey);
         }
 
         private async UniTask InitializeDataType<T>() where T : BaseData, new()
@@ -117,7 +114,7 @@ namespace Services.DataFramework
                 return identifier;
 
             var attribute = t.GetCustomAttribute<DataIdentifierAttribute>()?.Identifier ?? t.Name;
-            var dataIdentifier = $"{attribute}_v{Key}.json";
+            var dataIdentifier = $"{attribute}_v{GameConfig.DataKey}.json";
             _typeToFileNameMatch.Add(t, dataIdentifier);
 
             return _typeToFileNameMatch[t];

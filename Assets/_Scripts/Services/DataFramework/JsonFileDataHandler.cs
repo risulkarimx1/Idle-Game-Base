@@ -1,5 +1,6 @@
 using System.IO;
 using Cysharp.Threading.Tasks;
+using GameCode.Init;
 using Newtonsoft.Json;
 using Services.LogFramework;
 using UnityEngine;
@@ -22,10 +23,10 @@ namespace Services.DataFramework
 
         public JsonFileDataHandler(IEncryptionService service)
         {
-            IV = DataManager.IV;
-            Key = DataManager.Key;
+            IV = GameConfig.DataInitVector;
+            Key = GameConfig.DataKey;
             
-            _directoryPath = Path.Combine(Application.persistentDataPath, DataManager.Key);
+            _directoryPath = Path.Combine(Application.persistentDataPath, GameConfig.DataKey);
             _encryptionService = service;
             IsDirty = false;
             if (!Directory.Exists(_directoryPath))

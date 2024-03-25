@@ -21,7 +21,7 @@ namespace GameCode.Init
         
         [Inject] private CompositeDisposable _disposable;
         [Inject] private IMineshaftFactory _mineshaftFactory;
-        [Inject] private DataManager _dataManager;
+        [Inject] private IDataManager _dataManager;
         [Inject] private GameConfig _config;
         [Inject] private IGameSessionProvider _gameSessionProvider;
         [Inject] private FinanceModel _financeModel;

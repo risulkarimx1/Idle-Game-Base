@@ -23,7 +23,7 @@ namespace LevelLoaderScripts
 
     public class GameSessionProvider : IGameSessionProvider
     {
-        [Inject] private DataManager _dataManager;
+        [Inject] private IDataManager _dataManager;
         [Inject] private GameConfig _config;
         
         public GameSession GetSession()
@@ -56,7 +56,7 @@ namespace LevelLoaderScripts
     
     public class GameGameSessionUpdater : IGameSessionUpdater
     {
-        [Inject] private DataManager _dataManager;
+        [Inject] private IDataManager _dataManager;
         [Inject] private ITimeProvider _timeProvider;
 
         public async UniTask UpdateSession(string mineId)

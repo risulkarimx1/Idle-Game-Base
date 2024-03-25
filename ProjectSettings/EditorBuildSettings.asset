@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/_Scenes/BootScene.unity
     guid: 0d625ba51b8664aceac266ab65620ee3
   - enabled: 1
-    path: Assets/_Scenes/LevelLoaderScene.unity
+    path: Assets/_Scenes/GameSessionLoaderScene.unity
     guid: ff5ffa7ce62004736ad7dbad86339966
   - enabled: 1
     path: Assets/_Scenes/GameScene.unity

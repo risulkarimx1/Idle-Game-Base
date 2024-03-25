@@ -17,14 +17,8 @@ namespace Installer.ProjectContextInstaller
 
         public async void Initialize()
         {
-            _sceneFlowService.CurrentScene = SceneFlowService.LevelLoaderScene;
+            _sceneFlowService.CurrentScene = GameConfig.SessionLoaderScene;
             await _loadingController.Appear();
-        }
-        
-        // add a method to hot reload the game
-        public async void SoftReloadGame()
-        {
-            await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
         }
 
         public async void OnAllInitFinished()

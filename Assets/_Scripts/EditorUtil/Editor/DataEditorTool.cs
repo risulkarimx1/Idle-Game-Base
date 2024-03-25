@@ -1,5 +1,5 @@
 using System.IO;
-using Services.DataFramework;
+using GameCode.Init;
 using Services.LogFramework;
 using UnityEditor;
 using UnityEngine;
@@ -13,7 +13,7 @@ namespace _Scripts.EditorUtil.Editor
         [MenuItem("Tools/Clear Data")]
         public static void ClearData()
         {
-            var path = Path.Combine(Application.persistentDataPath, DataManager.Key);
+            var path = Path.Combine(Application.persistentDataPath, GameConfig.DataKey);
             
             if (Directory.Exists(path))
             {

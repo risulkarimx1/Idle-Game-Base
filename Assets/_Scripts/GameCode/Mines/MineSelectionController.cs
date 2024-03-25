@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using GameCode.Init;
+using GameCode.Utils;
 using LevelLoaderScripts;
 using Services.LogFramework;
 using Services.SceneFlowServices;
@@ -52,7 +53,7 @@ namespace GameCode.Mines
             await _gameSessionUpdater.UpdateSession(mineId);
             await _mineSelectionView.HideMineSelectionUiFlow();
             Debug.Log($"Selected mine with id {mineId}", LogContext.LevelConfig);
-            await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, true);
+            await _sceneFlowService.SwitchScene(GameConfig.SessionLoaderScene, true);
         }
         
         private void ConfigureBackButtons()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using GameCode.Init;
 using Services.LogFramework;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -11,10 +12,7 @@ namespace Services.SceneFlowServices
 {
     public class SceneFlowService
     {
-        public static string GameScene => "GameScene";
-        public static string LevelLoaderScene => "LevelLoaderScene";
-        public static string BootScene => "BootScene";
-
+        
         public string CurrentScene { get; set; }
         
         private Dictionary<string, List<AsyncOperationHandle<GameObject>>> _sceneAssetHandles = new();
@@ -24,7 +22,7 @@ namespace Services.SceneFlowServices
         {
             Debug.Log($"Loading new scene: {sceneName}", LogContext.SceneFlow);
             
-            if (unloadCurrentScene && CurrentScene != BootScene)
+            if (unloadCurrentScene && CurrentScene != GameConfig.BootScene)
             {
                 await UnloadSceneAssets(CurrentScene);
                 await SceneManager.UnloadSceneAsync(CurrentScene, UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);

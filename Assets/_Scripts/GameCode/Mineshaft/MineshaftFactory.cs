@@ -21,7 +21,7 @@ public class MineshaftFactory : IMineshaftFactory
     public MineshaftController CreateMineshaft(string mineId, int mineshaftNumber, int mineshaftLevel, Vector2 position)
     {
         var view = GameObject.Instantiate(_config.MineshaftConfig.MineshaftPrefab, position, Quaternion.identity);
-        SceneFlowService.MoveObjectToScene(view.gameObject, SceneFlowService.GameScene);
+        SceneFlowService.MoveObjectToScene(view.gameObject, GameConfig.GameScene);
         var mineshaftModel = new MineshaftModel(mineshaftNumber, mineshaftLevel, _config, _financeModel, _disposable);
         var controller = new MineshaftController(view, mineshaftModel, this, _config, _disposable, mineId);
         _collectionModel.RegisterMineshaft(mineshaftNumber, mineshaftModel, view);

@@ -1,3 +1,4 @@
+using GameCode.Init;
 using Services.GameInitFramework;
 using Services.LoadingScreen;
 using Services.LogFramework;
@@ -15,7 +16,7 @@ namespace BootSceneScripts
         {
             Debug.Log($"Game Initialized at {nameof(BootSceneRelay)}", LogContext.SceneFlow);
             await _loadingController.Appear();  
-            await _sceneFlowService.SwitchScene(SceneFlowService.LevelLoaderScene, false);
+            await _sceneFlowService.SwitchScene(GameConfig.SessionLoaderScene, false);
             await _loadingController.Hide();
         }
     }

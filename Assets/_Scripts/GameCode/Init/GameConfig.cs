@@ -24,5 +24,12 @@ namespace GameCode.Init
         [field: SerializeField] public WorkerConfig ElevatorWorkerConfig { get; private set; }
         [field: SerializeField] public WorkerConfig WarehouseWorkerConfig { get; private set; }
         [field: SerializeField] public MinesConfig MinesConfig { get; private set; }
+        
+        public static string DataKey = "1234567890abcdef1234567890abcdef";
+        public static string DataInitVector = "1234567890abcdef";
+        
+        public static string BootScene => "BootScene";
+        public static string GameScene => "GameScene";
+        public static string SessionLoaderScene => "SessionLoaderScene";
     }
 }

@@ -3,6 +3,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Cysharp.Threading.Tasks;
+using GameCode.Init;
+using GameCode.Utils;
 
 namespace Services.DataFramework
 {
@@ -11,8 +13,8 @@ namespace Services.DataFramework
         public async UniTask<string> EncryptStringAsync(string plainText)
         {
             using var aesAlg = Aes.Create();
-            aesAlg.Key = Encoding.UTF8.GetBytes(DataManager.Key);
-            aesAlg.IV = Encoding.UTF8.GetBytes(DataManager.IV);
+            aesAlg.Key = Encoding.UTF8.GetBytes(GameConfig.DataKey);
+            aesAlg.IV = Encoding.UTF8.GetBytes(GameConfig.DataInitVector);
 
             var encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
 
@@ -33,8 +35,8 @@ namespace Services.DataFramework
             var cipherBytes = Convert.FromBase64String(cipherText);
 
             using var aesAlg = Aes.Create();
-            aesAlg.Key = Encoding.UTF8.GetBytes(DataManager.Key);
-            aesAlg.IV = Encoding.UTF8.GetBytes(DataManager.IV);
+            aesAlg.Key = Encoding.UTF8.GetBytes(GameConfig.DataKey);
+            aesAlg.IV = Encoding.UTF8.GetBytes(GameConfig.DataInitVector);
 
             var decrypted = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 

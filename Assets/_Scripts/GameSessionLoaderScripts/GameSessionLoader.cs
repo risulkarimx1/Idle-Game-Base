@@ -1,3 +1,4 @@
+using GameCode.Init;
 using LevelLoaderScripts;
 using Services.GameInitFramework;
 using Services.LoadingScreen;
@@ -5,7 +6,7 @@ using Services.LogFramework;
 using Services.SceneFlowServices;
 using Zenject;
 
-namespace GameProxyService
+namespace GameSessionLoaderScripts
 {
     public class GameSessionLoader: IInitializableAfterAll
     {
@@ -18,7 +19,7 @@ namespace GameProxyService
             Debug.Log($"All components loaded at {nameof(GameSessionLoader)}", LogContext.SceneFlow);
             var levelsAssets = _gameSessionProvider.GetSession().AssetsKey;
             await _loadingController.Appear();
-            await _sceneFlowService.SwitchScene(SceneFlowService.GameScene, true, levelsAssets);
+            await _sceneFlowService.SwitchScene(GameConfig.GameScene, true, levelsAssets);
             await _loadingController.Hide();
         }
     }
