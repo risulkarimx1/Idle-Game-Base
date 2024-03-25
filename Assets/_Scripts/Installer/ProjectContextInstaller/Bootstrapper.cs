@@ -1,9 +1,11 @@
 using GameCode.Init;
 using Services.GameInitFramework;
 using Services.LoadingScreen;
+using Services.LogFramework;
 using Services.SceneFlowServices;
 using UnityEngine.SceneManagement;
 using Zenject;
+using Debug = Services.LogFramework.Debug;
 
 namespace Installer.ProjectContextInstaller
 {
@@ -17,6 +19,7 @@ namespace Installer.ProjectContextInstaller
         {
             if (SceneManager.GetActiveScene().name != GameConfig.GetInstance().BootScene)
             {
+                Debug.Log("Game Will be rebooted from boot scene. Ignore the errors!", LogContext.SceneFlow);
                 SceneManager.LoadScene(_config.BootScene);
             }
             else
