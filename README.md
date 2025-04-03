@@ -2,7 +2,7 @@
 
 ## Solution objective:
 
-The main objective of the proposed solution is to effectively deliver the requested feature. In addition, I have taken the initiative to investigate potential avenues for developing a production-ready, scalable project. This approach ensures that the project remains modular, facilitating the easy addition of further resources and enabling seamless continuation of its development.
+The main objective of the proposed solution is to effectively deliver a base game for idle games in general. In addition, I have taken the initiative to investigate potential avenues for developing a production-ready, scalable project. This approach ensures that the project remains modular, facilitating the easy addition of further resources and enabling seamless continuation of its development.
 
 # Key features 💡
 
