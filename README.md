@@ -1,4 +1,4 @@
-# Idle Miner Tycoon - Clone
+# Idle Game Framework
 
 ## Solution objective:
 
